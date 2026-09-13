@@ -13,6 +13,6 @@ class EmprestimosServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->prefix('emprestimos')
-            ->group(__DIR__.'/../Routes/web.php');
+            ->group(__DIR__.'/../../Interface/Routes/web.php');
     }
 }

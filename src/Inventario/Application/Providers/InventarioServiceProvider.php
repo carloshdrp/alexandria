@@ -13,6 +13,6 @@ class InventarioServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->prefix('inventario')
-            ->group(__DIR__.'/../Routes/web.php');
+            ->group(__DIR__.'/../../Interface/Routes/web.php');
     }
 }
