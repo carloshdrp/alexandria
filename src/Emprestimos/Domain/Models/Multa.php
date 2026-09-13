@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace Emprestimos\Domain\Models;
 
 use App\Enums\MultaSituacao;
+use App\Models\User;
+use Emprestimos\Domain\Enums\MultaSituacao;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

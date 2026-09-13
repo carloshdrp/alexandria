@@ -16,11 +16,13 @@ return new class extends Migration
             $table->unsignedTinyInteger('situacao')->default(1);
             $table->unsignedTinyInteger('motivo_baixa')->nullable();
             $table->timestamp('baixado_em')->nullable();
+            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
             $table->timestamps();
         });
 
         Schema::table('exemplares', function (Blueprint $table) {
             $table->index('obra_id');
+            $table->index('user_id');
         });
     }
 

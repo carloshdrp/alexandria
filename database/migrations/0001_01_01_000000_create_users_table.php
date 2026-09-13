@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('documento', 20)->unique();
             $table->string('telefone', 20)->nullable();
             $table->unsignedTinyInteger('situacao')->default(1);
+            $table->unsignedTinyInteger('papel')->default(1);
             $table->timestamp('bloqueado_em')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

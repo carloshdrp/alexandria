@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace Emprestimos\Domain\Enums;
 
 enum EmprestimoSituacao: int
 {

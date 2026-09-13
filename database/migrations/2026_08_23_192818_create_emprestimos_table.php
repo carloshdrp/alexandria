@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -25,9 +25,7 @@ return new class extends Migration
             $table->index('prazo_devolucao');
         });
 
-        // invariante: um exemplar nunca em dois empréstimos abertos ao mesmo tempo
         DB::statement('CREATE UNIQUE INDEX uniq_exemplar_em_aberto ON emprestimos (exemplar_id) WHERE devolvido_em IS NULL');
-        // suporte à regra "máx. 3 empréstimos ativos por usuário"
         DB::statement('CREATE INDEX idx_emprestimos_usuario_aberto ON emprestimos (user_id) WHERE devolvido_em IS NULL');
     }
 

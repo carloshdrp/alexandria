@@ -12,9 +12,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('obra_id')->constrained('obras')->restrictOnDelete();
             $table->foreignId('autor_id')->constrained('autores')->restrictOnDelete();
+            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
             $table->unsignedSmallInteger('ordem')->default(1);
             $table->timestamps();
             $table->softDeletes();
+            $table->index('user_id');
             $table->unique(['obra_id', 'autor_id']);
         });
     }

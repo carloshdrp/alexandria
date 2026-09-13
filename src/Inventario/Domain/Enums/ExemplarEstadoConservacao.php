@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace Inventario\Domain\Enums;
 
 enum ExemplarEstadoConservacao: int
 {

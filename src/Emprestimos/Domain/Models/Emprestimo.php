@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace Emprestimos\Domain\Models;
 
 use App\Enums\EmprestimoSituacao;
+use App\Models\User;
+use Emprestimos\Domain\Enums\EmprestimoSituacao;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Inventario\Domain\Models\Exemplar;
 
 #[Fillable(['user_id', 'exemplar_id', 'retirado_em', 'prazo_devolucao', 'devolvido_em', 'situacao', 'qtd_renovacoes'])]
 class Emprestimo extends Model

@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('emprestimo_renovacoes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('emprestimo_id')->constrained('emprestimos')->restrictOnDelete();
+            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
             $table->unsignedTinyInteger('sequencia');
             $table->date('prazo_anterior');
             $table->date('prazo_novo');
