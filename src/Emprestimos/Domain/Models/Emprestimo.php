@@ -2,9 +2,9 @@
 
 namespace Emprestimos\Domain\Models;
 
-use App\Enums\EmprestimoSituacao;
 use App\Models\User;
 use Emprestimos\Domain\Enums\EmprestimoSituacao;
+use Emprestimos\Infrastructure\Casts\PrazoEmprestimoCast;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,6 +42,7 @@ class Emprestimo extends Model
             'retirado_em' => 'datetime',
             'prazo_devolucao' => 'date',
             'devolvido_em' => 'datetime',
+            'prazo' => PrazoEmprestimoCast::class,
         ];
     }
 }

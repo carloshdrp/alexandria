@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Casts\ValueObjectCast;
 use App\Enums\UsuarioPapel;
 use App\Enums\UsuarioSituacao;
+use App\ValueObjects\Documento;
+use App\ValueObjects\Telefone;
 use Database\Factories\UserFactory;
 use Emprestimos\Domain\Models\Emprestimo;
 use Emprestimos\Domain\Models\Multa;
@@ -88,6 +90,8 @@ class User extends Authenticatable
             'situacao' => UsuarioSituacao::class,
             'papel' => UsuarioPapel::class,
             'bloqueado_em' => 'datetime',
+            'documento' => ValueObjectCast::class.':'.Documento::class,
+            'telefone' => ValueObjectCast::class.':'.Telefone::class,
         ];
     }
 }

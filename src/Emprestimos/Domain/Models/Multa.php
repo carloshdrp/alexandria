@@ -2,9 +2,10 @@
 
 namespace Emprestimos\Domain\Models;
 
-use App\Enums\MultaSituacao;
+use App\Casts\ValueObjectCast;
 use App\Models\User;
 use Emprestimos\Domain\Enums\MultaSituacao;
+use Emprestimos\Domain\ValueObjects\Dinheiro;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,6 +27,7 @@ class Multa extends Model
     {
         return [
             'situacao' => MultaSituacao::class,
+            'valor' => ValueObjectCast::class.':'.Dinheiro::class,
             'paga_em' => 'datetime',
         ];
     }

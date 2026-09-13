@@ -2,12 +2,14 @@
 
 namespace Inventario\Domain\Models;
 
+use App\Casts\ValueObjectCast;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Inventario\Domain\ValueObjects\Isbn;
 
 #[Fillable(['titulo', 'isbn', 'editora_id', 'categoria_id', 'user_id', 'ano_publicacao'])]
 class Obra extends Model
@@ -36,5 +38,12 @@ class Obra extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'isbn' => ValueObjectCast::class.':'.Isbn::class,
+        ];
     }
 }

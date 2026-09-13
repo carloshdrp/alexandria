@@ -2,9 +2,9 @@
 
 namespace Emprestimos\Domain\Models;
 
-use App\Enums\ReservaSituacao;
 use App\Models\User;
 use Emprestimos\Domain\Enums\ReservaSituacao;
+use Emprestimos\Infrastructure\Casts\JanelaReservaCast;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,6 +35,7 @@ class Reserva extends Model
             'situacao' => ReservaSituacao::class,
             'disponibilizada_em' => 'datetime',
             'expira_em' => 'datetime',
+            'janela' => JanelaReservaCast::class,
         ];
     }
 }
