@@ -53,4 +53,9 @@ final readonly class PrazoEmprestimo
     {
         return $this->retiradoEm;
     }
+
+    public function estender(int $duracaoDias = self::DURACAO_DIAS): self
+    {
+        return new self($this->retiradoEm, $this->prazoDevolucao->addDays($duracaoDias));
+    }
 }
