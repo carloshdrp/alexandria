@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
             $table->decimal('valor', 12);
             $table->integer('dias_atraso');
-            $table->unsignedTinyInteger('situacao')->default(0);
+            $table->unsignedTinyInteger('situacao')->default(1);
             $table->timestamp('paga_em')->nullable();
             $table->timestamps();
         });

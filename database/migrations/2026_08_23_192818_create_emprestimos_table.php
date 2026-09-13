@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamp('retirado_em');
             $table->date('prazo_devolucao');
             $table->timestamp('devolvido_em')->nullable();
-            $table->unsignedTinyInteger('situacao')->default(0);
+            $table->unsignedTinyInteger('situacao')->default(1);
             $table->unsignedTinyInteger('qtd_renovacoes')->default(0);
             $table->timestamps();
         });
