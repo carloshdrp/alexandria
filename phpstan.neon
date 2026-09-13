@@ -1,0 +1,28 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 8
+
+    paths:
+        - app
+        - bootstrap
+        - config
+        - database
+        - routes
+
+    excludePaths:
+        analyse:
+            - bootstrap/cache
+            - storage
+            - vendor
+
+    tmpDir: storage/phpstan
+
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true
+    checkUninitializedProperties: true
+
+    bootstrapFiles:
+        - bootstrap/app.php
