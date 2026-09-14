@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 final class Isbn extends AbstractValue
 {
-    private readonly string $valor;
+    protected readonly string $valor;
 
     public function __construct(string $valor)
     {

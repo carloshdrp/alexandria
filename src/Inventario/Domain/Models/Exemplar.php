@@ -80,4 +80,11 @@ class Exemplar extends Model
         return $query->where('obra_id', $obraId)
             ->where('situacao', ExemplarSituacao::NoAcervo);
     }
+
+    #[Scope]
+    public function naoBaixadosPorObra(Builder $query, int $obraId): Builder
+    {
+        return $query->where('obra_id', $obraId)
+            ->where('situacao', '!=', ExemplarSituacao::Baixado);
+    }
 }

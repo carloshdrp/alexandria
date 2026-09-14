@@ -9,8 +9,8 @@ use Inventario\Domain\Models\Exemplar;
 class ExemplarObserver
 {
     private const array TRANSICOES_VALIDAS = [
-        ExemplarSituacao::NoAcervo->value => [ExemplarSituacao::Baixado->value, ExemplarSituacao::Emprestado->value],
-        ExemplarSituacao::Emprestado->value => [ExemplarSituacao::Baixado->value, ExemplarSituacao::NoAcervo->value],
+        ExemplarSituacao::NoAcervo->value => [ExemplarSituacao::Baixado, ExemplarSituacao::Emprestado],
+        ExemplarSituacao::Emprestado->value => [ExemplarSituacao::Baixado, ExemplarSituacao::NoAcervo],
         ExemplarSituacao::Baixado->value => [],
     ];
 
@@ -23,7 +23,7 @@ class ExemplarObserver
         $de = ExemplarSituacao::from($exemplar->getRawOriginal('situacao'));
         $para = $exemplar->situacao;
 
-        if (! in_array($para, self::TRANSICOES_VALIDAS[$de->value])) {
+        if (! in_array($para, self::TRANSICOES_VALIDAS[$de->value], true)) {
             throw new DomainException('Transição de situação inválida');
         }
     }

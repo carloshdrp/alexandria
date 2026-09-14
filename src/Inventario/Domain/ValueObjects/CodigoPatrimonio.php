@@ -9,7 +9,7 @@ final class CodigoPatrimonio extends AbstractValue
 {
     private const PADRAO = '/^EX-\d{6}$/';
 
-    private readonly string $valor;
+    protected readonly string $valor;
 
     public function __construct(string $valor)
     {
@@ -22,7 +22,7 @@ final class CodigoPatrimonio extends AbstractValue
         $this->valor = $normalizado;
     }
 
-    public static function fromNative()
+    public static function fromNative($valor): self
     {
         return new self($valor);
     }
