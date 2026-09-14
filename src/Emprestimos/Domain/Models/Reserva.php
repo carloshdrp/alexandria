@@ -77,7 +77,7 @@ class Reserva extends Model
     public function cancelar(): void
     {
         if (! in_array($this->situacao, [ReservaSituacao::Aguardando, ReservaSituacao::Disponivel], true)) {
-            throw new DomainException('Reserva não está aguardando aguardando ou disponível.');
+            throw new DomainException('Reserva não está aguardando ou disponível.');
         }
 
         $this->situacao = ReservaSituacao::Cancelada;

@@ -16,6 +16,10 @@ class EmprestimoObserver
 
     public function saving(Emprestimo $emprestimo): void
     {
+        if ($emprestimo->qtd_renovacoes > Emprestimo::MAX_RENOVACOES) {
+            throw new DomainException('O máximo de renovações foi atingido.');
+        }
+
         if (! $emprestimo->exists || ! $emprestimo->isDirty('situacao')) {
             return;
         }
@@ -25,10 +29,6 @@ class EmprestimoObserver
 
         if (! in_array($para, self::TRANSICOES_VALIDAS[$de->value], true)) {
             throw new DomainException('Transição de situação inválida');
-        }
-
-        if ($emprestimo->qtd_renovacoes > Emprestimo::MAX_RENOVACOES) {
-            throw new DomainException('O máximo de renovações foi atingido.');
         }
     }
 }
