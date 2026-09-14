@@ -15,7 +15,7 @@ class MultaObserver
 
     public function saving(Multa $multa): void
     {
-        if (! $multa->exists()) {
+        if (! $multa->exists) {
             return;
         }
 

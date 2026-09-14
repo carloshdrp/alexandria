@@ -18,7 +18,7 @@ class ReservaObserver
 
     public function saving(Reserva $reserva): void
     {
-        if (! $reserva->exists() || ! $reserva->isDirty('situacao')) {
+        if (! $reserva->exists || ! $reserva->isDirty('situacao')) {
             return;
         }
 

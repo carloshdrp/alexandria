@@ -16,7 +16,7 @@ class EmprestimoObserver
 
     public function saving(Emprestimo $emprestimo): void
     {
-        if (! $emprestimo->exists() || ! $emprestimo->isDirty('situacao')) {
+        if (! $emprestimo->exists || ! $emprestimo->isDirty('situacao')) {
             return;
         }
 
