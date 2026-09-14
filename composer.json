@@ -39,10 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
-            "Emprestimos\\": "src/Emprestimos",
-            "Inventario\\": "src/Inventario",
-            "App\\": "app/"
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
