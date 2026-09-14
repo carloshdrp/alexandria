@@ -24,7 +24,6 @@ services:
         depends_on:
             - pgsql
             - redis
-            - localstack
     pgsql:
         image: 'postgres:18-alpine'
         ports:
@@ -65,30 +64,6 @@ services:
                 - ping
             retries: 3
             timeout: 5s
-    localstack:
-        image: 'localstack/localstack:4'
-        ports:
-            - '${FORWARD_LOCALSTACK_PORT:-4566}:4566'
-        environment:
-            SERVICES: 'sqs,s3'
-            DEBUG: '${LOCALSTACK_DEBUG:-0}'
-            AWS_DEFAULT_REGION: '${AWS_DEFAULT_REGION:-us-east-1}'
-            AWS_BUCKET: '${AWS_BUCKET:-alexandria}'
-        volumes:
-            - 'sail-localstack:/var/lib/localstack'
-            - '/var/run/docker.sock:/var/run/docker.sock'
-            - './docker/localstack/init:/etc/localstack/init/ready.d'
-        networks:
-            - sail
-        healthcheck:
-            test:
-                - CMD
-                - curl
-                - '-sf'
-                - 'http://localhost:4566/_localstack/health'
-            interval: 10s
-            retries: 5
-            timeout: 5s
 networks:
     sail:
         driver: bridge
@@ -96,6 +71,4 @@ volumes:
     sail-pgsql:
         driver: local
     sail-redis:
-        driver: local
-    sail-localstack:
         driver: local
