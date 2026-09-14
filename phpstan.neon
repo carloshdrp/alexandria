@@ -11,6 +11,7 @@ parameters:
         - config
         - database
         - routes
+        - src
 
     excludePaths:
         analyse:
@@ -20,8 +21,6 @@ parameters:
 
     tmpDir: storage/phpstan
 
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
     checkUninitializedProperties: true
 
     bootstrapFiles:
