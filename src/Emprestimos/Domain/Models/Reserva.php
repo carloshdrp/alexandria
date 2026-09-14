@@ -84,7 +84,7 @@ class Reserva extends Model
     }
 
     #[Scope]
-    public function reservaPorObra(Builder $query, int $obraId, ?int $excetoUserId = null): Builder
+    protected function reservaPorObra(Builder $query, int $obraId, ?int $excetoUserId = null): Builder
     {
         $query = $query->where('obra_id', $obraId)
             ->whereIn('situacao', [ReservaSituacao::Aguardando, ReservaSituacao::Disponivel]);
@@ -97,7 +97,7 @@ class Reserva extends Model
     }
 
     #[Scope]
-    public function proximaReserva(Builder $query, int $obraId): Builder
+    protected function proximaReserva(Builder $query, int $obraId): Builder
     {
         return $query->where('obra_id', $obraId)
             ->where('situacao', ReservaSituacao::Aguardando)

@@ -98,7 +98,7 @@ class Emprestimo extends Model
     }
 
     #[Scope]
-    public function ativosPorUsuario(Builder $query, int $userId): Builder
+    protected function ativosPorUsuario(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId)
             ->whereIn('situacao', [EmprestimoSituacao::Andamento, EmprestimoSituacao::Atrasado]);

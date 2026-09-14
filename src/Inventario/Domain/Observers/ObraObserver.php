@@ -10,7 +10,7 @@ class ObraObserver
 {
     public function deleting(Obra $obra): void
     {
-        if (Exemplar::naoBaixadosPorObra($obra->getKey())->exists()) {
+        if (Exemplar::naoBaixadosPorObra($obra->id)->exists()) {
             throw new DomainException('Obra possui exemplares que ainda não foram baixados.');
         }
     }
