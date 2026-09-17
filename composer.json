@@ -11,10 +11,12 @@
     "require": {
         "php": "^8.5",
         "aws/aws-sdk-php": "^3.393",
+        "laravel/fortify": "^1.39",
         "laravel/framework": "^13.17",
         "laravel/sail": "^1.66",
         "laravel/tinker": "^3.0",
-        "league/flysystem-aws-s3-v3": "^3.35"
+        "league/flysystem-aws-s3-v3": "^3.35",
+        "livewire/livewire": "^4.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -24,8 +26,11 @@
         "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.30",
         "laravel/telescope": "^5.22",
+        "lucascudo/laravel-pt-br-localization": "^3.0",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
+        "pestphp/pest": "^4.7",
+        "pestphp/pest-plugin-laravel": "^4.1",
         "phpunit/phpunit": "^12.5.12"
     },
     "autoload": {
