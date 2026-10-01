@@ -72,6 +72,12 @@ class Reserva extends Model
     }
 
     #[Scope]
+    protected function doUsuario(Builder $query, int $userId): Builder
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    #[Scope]
     protected function reservaPorObra(Builder $query, int $obraId, ?int $excetoUserId = null): Builder
     {
         $query = $query->where('obra_id', $obraId)

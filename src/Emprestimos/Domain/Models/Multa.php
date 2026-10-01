@@ -50,6 +50,12 @@ class Multa extends Model
     }
 
     #[Scope]
+    protected function doUsuario(Builder $query, int $userId): Builder
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    #[Scope]
     protected function pendentePorUsuario(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId)->where('situacao', MultaSituacao::Pendente);
