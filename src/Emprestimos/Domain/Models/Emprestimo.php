@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[ObservedBy([EmprestimoObserver::class])]
-#[Fillable(['user_id', 'exemplar_id', 'retirado_em', 'prazo_devolucao'])]
+#[Fillable(['user_id', 'exemplar_id'])]
 class Emprestimo extends Model
 {
     public const int MAX_RENOVACOES = 2;
@@ -50,9 +50,7 @@ class Emprestimo extends Model
     {
         return [
             'situacao' => EmprestimoSituacao::class,
-            'retirado_em' => 'datetime',
-            'prazo_devolucao' => 'date',
-            'devolvido_em' => 'datetime',
+            'devolvido_em' => 'immutable_datetime',
             'prazo' => PrazoEmprestimoCast::class,
         ];
     }
