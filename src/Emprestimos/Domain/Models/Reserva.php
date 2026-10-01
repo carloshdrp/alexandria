@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Inventario\Domain\Models\Exemplar;
-use Inventario\Domain\Models\Obra;
 
 #[ObservedBy([ReservaObserver::class])]
 #[Fillable(['user_id', 'obra_id'])]
@@ -25,16 +23,6 @@ class Reserva extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function obra(): BelongsTo
-    {
-        return $this->belongsTo(Obra::class);
-    }
-
-    public function exemplar(): BelongsTo
-    {
-        return $this->belongsTo(Exemplar::class);
     }
 
     protected function casts(): array

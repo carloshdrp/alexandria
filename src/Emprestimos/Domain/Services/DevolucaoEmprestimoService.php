@@ -2,26 +2,38 @@
 
 namespace Emprestimos\Domain\Services;
 
+use DomainException;
 use Emprestimos\Domain\Models\Emprestimo;
 use Emprestimos\Domain\Models\Multa;
 use Emprestimos\Domain\Models\Reserva;
 use Emprestimos\Domain\ValueObjects\ValorMulta;
 use Illuminate\Support\Facades\DB;
+use Inventario\Domain\Services\AcervoService;
 
 class DevolucaoEmprestimoService
 {
-    public function __construct() {}
+    public function __construct(
+        private readonly AcervoService $acervo,
+    ) {}
 
     public function devolver(Emprestimo $emprestimo): void
     {
-        DB::transaction(function () use ($emprestimo) {
+        $exemplar = $this->acervo->exemplar($emprestimo->exemplar_id);
+
+        if ($exemplar === null) {
+            throw new DomainException('Exemplar do empréstimo não existe no acervo.');
+        }
+
+        $multa = null;
+
+        DB::transaction(function () use ($emprestimo, $exemplar, &$multa) {
             $emprestimo->devolver();
 
             if ($emprestimo->prazo->estaAtrasado($emprestimo->devolvido_em)) {
                 $dias = $emprestimo->prazo->diasAtraso($emprestimo->devolvido_em);
                 $valor = ValorMulta::calcular($dias);
 
-                Multa::create([
+                $multa = Multa::create([
                     'emprestimo_id' => $emprestimo->id,
                     'user_id' => $emprestimo->user_id,
                     'valor' => $valor->total(),
@@ -31,16 +43,10 @@ class DevolucaoEmprestimoService
 
             $emprestimo->save();
 
-            $exemplar = $emprestimo->exemplar;
-            $proximaReserva = Reserva::proximaReserva($exemplar->obra_id)->first();
-
-            if ($proximaReserva) {
-                $proximaReserva->disponibilizar($exemplar->id);
-                $proximaReserva->save();
-                // TODO: Disparar evento de reserva liberada quando notificação/schedule entrar no escopo
+            if (Reserva::proximaReserva($exemplar->obraId)->exists()) {
+                $this->acervo->marcarReservado($exemplar->id);
             } else {
-                $exemplar->devolver();
-                $exemplar->save();
+                $this->acervo->marcarDevolvido($exemplar->id);
             }
         });
     }

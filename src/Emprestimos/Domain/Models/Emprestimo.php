@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Inventario\Domain\Models\Exemplar;
 
 #[ObservedBy([EmprestimoObserver::class])]
 #[Fillable(['user_id', 'exemplar_id', 'retirado_em', 'prazo_devolucao'])]
@@ -29,11 +28,6 @@ class Emprestimo extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function exemplar(): BelongsTo
-    {
-        return $this->belongsTo(Exemplar::class);
     }
 
     public function renovacoes(): HasMany
