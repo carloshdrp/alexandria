@@ -1,15 +1,15 @@
 <?php
 
-namespace Inventario\Infrastructure\Storage;
+namespace Inventario\Domain\Services;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Inventario\Domain\Contracts\ArmazenadorCapaObra;
 use Inventario\Domain\Models\Obra;
+use RuntimeException;
 
-class ArmazenadorCapaObraEmDisco implements ArmazenadorCapaObra
+class ArmazenadorCapaObra
 {
     private const string DIRETORIO = 'capas/obras';
 
@@ -17,11 +17,22 @@ class ArmazenadorCapaObraEmDisco implements ArmazenadorCapaObra
     {
         $nome = Str::uuid()->toString().'.'.$arquivo->extension();
 
-        return $this->disco()->putFileAs(
+        $path = $this->disco()->putFileAs(
             self::DIRETORIO.'/'.$obra->getKey(),
             $arquivo,
             $nome,
         );
+
+        if ($path === false) {
+            throw new RuntimeException("Não foi possível armazenar a capa da obra {$obra->getKey()}.");
+        }
+
+        return $path;
+    }
+
+    private function disco(): Filesystem
+    {
+        return Storage::disk('public');
     }
 
     public function remover(string $path): void
@@ -32,10 +43,5 @@ class ArmazenadorCapaObraEmDisco implements ArmazenadorCapaObra
     public function url(string $path): string
     {
         return $this->disco()->url($path);
-    }
-
-    private function disco(): Filesystem
-    {
-        return Storage::disk('public');
     }
 }

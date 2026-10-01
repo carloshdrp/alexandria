@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Inventario\Domain\Contracts\ArmazenadorCapaObra;
 use Inventario\Domain\Observers\ObraObserver;
+use Inventario\Domain\Services\ArmazenadorCapaObra;
 use Inventario\Domain\ValueObjects\Isbn;
 
 #[ObservedBy([ObraObserver::class])]
@@ -69,7 +69,7 @@ class Obra extends Model
                 return null;
             }
 
-            return app(ArmazenadorCapaObra::class)->url($this->capa_path);
+            return (new ArmazenadorCapaObra)->url($this->capa_path);
         });
     }
 

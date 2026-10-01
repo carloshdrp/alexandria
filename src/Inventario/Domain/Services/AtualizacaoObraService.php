@@ -4,7 +4,6 @@ namespace Inventario\Domain\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Inventario\Domain\Contracts\ArmazenadorCapaObra;
 use Inventario\Domain\Models\Obra;
 use Inventario\Domain\ValueObjects\Isbn;
 
