@@ -10,6 +10,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
@@ -29,6 +30,8 @@ class AcessoServiceProvider extends ServiceProvider
             classPath: __DIR__.'/../Livewire',
             classViewPath: __DIR__.'/../../Interface/Views/livewire',
         );
+
+        Route::middleware(['web', 'auth'])->group(__DIR__.'/../../Interface/Routes/web.php');
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);

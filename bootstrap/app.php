@@ -25,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
         );
 
         $exceptions->render(function (DomainException $e, Request $request) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
+            if ($request->expectsJson()) {
+                return response()->json(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            return back()->withInput()->withErrors(['dominio' => $e->getMessage()]);
         });
     })->create();
