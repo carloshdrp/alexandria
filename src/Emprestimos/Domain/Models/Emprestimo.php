@@ -80,8 +80,18 @@ class Emprestimo extends Model
             throw new DomainException('Não é possível renovar um empréstimo devolvido.');
         }
 
+        if ($this->prazo->estaAtrasado()) {
+            throw new DomainException('Não é possível renovar um empréstimo atrasado.');
+        }
+
         if ($this->qtd_renovacoes >= self::MAX_RENOVACOES) {
             throw new DomainException('O máximo de renovações foi atingido.');
+        }
+
+        if (! $this->prazo->estaNaJanelaDeRenovacao()) {
+            $liberaEm = $this->prazo->inicioDaJanelaDeRenovacao()->format('d/m/Y');
+
+            throw new DomainException("A renovação fica disponível a partir de {$liberaEm}.");
         }
 
         if ($temMultaPendente || $temReservaPendente) {
