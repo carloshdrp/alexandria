@@ -3,6 +3,8 @@
 namespace Emprestimos\Domain\Services;
 
 use DomainException;
+use Emprestimos\Domain\Events\EmprestimoFoiDevolvido;
+use Emprestimos\Domain\Events\MultaFoiGerada;
 use Emprestimos\Domain\Models\Emprestimo;
 use Emprestimos\Domain\Models\Multa;
 use Emprestimos\Domain\Models\Reserva;
@@ -49,5 +51,11 @@ class DevolucaoEmprestimoService
                 $this->acervo->marcarDevolvido($exemplar->id);
             }
         });
+
+        event(new EmprestimoFoiDevolvido($emprestimo));
+
+        if ($multa !== null) {
+            event(new MultaFoiGerada($multa));
+        }
     }
 }

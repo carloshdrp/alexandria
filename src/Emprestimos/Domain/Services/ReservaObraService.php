@@ -5,6 +5,7 @@ namespace Emprestimos\Domain\Services;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use DomainException;
+use Emprestimos\Domain\Events\ReservaFoiCadastrada;
 use Emprestimos\Domain\Models\Emprestimo;
 use Emprestimos\Domain\Models\Reserva;
 use Inventario\Domain\Services\AcervoService;
@@ -44,6 +45,8 @@ class ReservaObraService
             'obra_id' => $obra->id,
             'enfileirada_em' => CarbonImmutable::now(),
         ]);
+
+        event(new ReservaFoiCadastrada($reserva));
 
         return $reserva;
     }

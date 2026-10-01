@@ -4,6 +4,7 @@ namespace Emprestimos\Domain\Services;
 
 use Carbon\CarbonImmutable;
 use DomainException;
+use Emprestimos\Domain\Events\EmprestimoFoiRenovado;
 use Emprestimos\Domain\Models\Emprestimo;
 use Emprestimos\Domain\Models\EmprestimoRenovacao;
 use Emprestimos\Domain\Models\Multa;
@@ -47,5 +48,7 @@ class RenovacaoEmprestimoService
                 'renovado_em' => CarbonImmutable::now(),
             ]);
         });
+
+        event(new EmprestimoFoiRenovado($emprestimo));
     }
 }

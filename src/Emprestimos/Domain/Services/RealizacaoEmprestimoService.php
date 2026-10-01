@@ -5,6 +5,7 @@ namespace Emprestimos\Domain\Services;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use DomainException;
+use Emprestimos\Domain\Events\EmprestimoFoiRealizado;
 use Emprestimos\Domain\Models\Emprestimo;
 use Emprestimos\Domain\Models\Multa;
 use Emprestimos\Domain\ValueObjects\PrazoEmprestimo;
@@ -27,6 +28,8 @@ class RealizacaoEmprestimoService
 
             return $this->registrar($user->id, $exemplar->id);
         });
+
+        event(new EmprestimoFoiRealizado($emprestimo));
 
         return $emprestimo;
     }
