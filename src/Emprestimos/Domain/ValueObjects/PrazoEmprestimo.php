@@ -30,7 +30,7 @@ final readonly class PrazoEmprestimo
     {
         $referencia = $referencia ? CarbonImmutable::instance($referencia) : CarbonImmutable::now();
 
-        return $referencia->greaterThan($this->prazoDevolucao);
+        return $referencia->startOfDay()->greaterThan($this->prazoDevolucao->startOfDay());
     }
 
     public function diasAtraso(?DateTimeInterface $referencia = null): int
@@ -41,7 +41,7 @@ final readonly class PrazoEmprestimo
 
         $referencia = $referencia ? CarbonImmutable::instance($referencia) : CarbonImmutable::now();
 
-        return $referencia->diffInDays($this->prazoDevolucao);
+        return (int) $this->prazoDevolucao->startOfDay()->diffInDays($referencia->startOfDay());
     }
 
     public function prazoDevolucao(): CarbonImmutable
