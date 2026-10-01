@@ -8,6 +8,7 @@ use App\Acesso\Domain\Enums\UsuarioSituacao;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ class AcessoServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Gate::define('bibliotecario', fn (User $user) => $user->ehBibliotecario());
+
         $this->loadViewsFrom(__DIR__.'/../../Interface/Views', 'acesso');
 
         Livewire::addNamespace(

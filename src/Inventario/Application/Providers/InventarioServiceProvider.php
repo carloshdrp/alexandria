@@ -19,7 +19,7 @@ class InventarioServiceProvider extends ServiceProvider
             classViewPath: __DIR__.'/../../Interface/Views/livewire',
         );
 
-        Route::middleware(['web', 'auth'])
+        Route::middleware(['web', 'auth', 'verified', 'can:bibliotecario'])
             ->prefix('inventario')
             ->name('inventario.')
             ->group(__DIR__.'/../../Interface/Routes/web.php');

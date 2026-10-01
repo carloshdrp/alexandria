@@ -25,7 +25,14 @@ use Emprestimos\Domain\Events\MultaFoiPaga;
 use Emprestimos\Domain\Events\ReservaFoiCancelada;
 use Emprestimos\Domain\Events\ReservaFoiDisponibilizada;
 use Emprestimos\Domain\Events\ReservaFoiExpirada;
+use Emprestimos\Application\Policies\EmprestimoPolicy;
+use Emprestimos\Application\Policies\MultaPolicy;
+use Emprestimos\Application\Policies\ReservaPolicy;
+use Emprestimos\Domain\Models\Emprestimo;
+use Emprestimos\Domain\Models\Multa;
+use Emprestimos\Domain\Models\Reserva;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -49,6 +56,10 @@ class EmprestimosServiceProvider extends ServiceProvider
         Event::listen(ReservaFoiExpirada::class, NotificarReservaExpirada::class);
         Event::listen(ReservaFoiCancelada::class, NotificarReservaCancelada::class);
 
+        Gate::policy(Emprestimo::class, EmprestimoPolicy::class);
+        Gate::policy(Reserva::class, ReservaPolicy::class);
+        Gate::policy(Multa::class, MultaPolicy::class);
+
         $this->loadViewsFrom(__DIR__.'/../../Interface/Views', 'emprestimos');
 
         Livewire::addNamespace(
@@ -58,7 +69,7 @@ class EmprestimosServiceProvider extends ServiceProvider
             classViewPath: __DIR__.'/../../Interface/Views/livewire',
         );
 
-        Route::middleware(['web', 'auth'])
+        Route::middleware(['web', 'auth', 'verified'])
             ->prefix('emprestimos')
             ->name('emprestimos.')
             ->group(__DIR__.'/../../Interface/Routes/web.php');

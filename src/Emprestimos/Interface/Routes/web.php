@@ -18,7 +18,9 @@ Route::get('/meus', MeusEmprestimos::class)->name('meus');
 Route::get('/minhas-reservas', MinhasReservas::class)->name('minhas-reservas');
 Route::get('/minhas-multas', MinhasMultas::class)->name('minhas-multas');
 
-Route::get('/', EmprestimosEmAberto::class)->name('em-aberto');
-Route::get('/reservas', ReservasAtivas::class)->name('reservas');
-Route::get('/multas', MultasPendentes::class)->name('multas');
-Route::get('/clientes/{user}', SituacaoDoCliente::class)->name('clientes.situacao');
+Route::middleware('can:bibliotecario')->group(function () {
+    Route::get('/', EmprestimosEmAberto::class)->name('em-aberto');
+    Route::get('/reservas', ReservasAtivas::class)->name('reservas');
+    Route::get('/multas', MultasPendentes::class)->name('multas');
+    Route::get('/clientes/{user}', SituacaoDoCliente::class)->name('clientes.situacao');
+});
