@@ -2,11 +2,14 @@
 
 namespace Emprestimos\Domain\ValueObjects;
 
-use App\ValueObjects\AbstractValue;
+use App\Casts\ValueObjectCast;
 use App\ValueObjects\ValueObject;
+use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use InvalidArgumentException;
+use JsonSerializable;
 
-final class Dinheiro extends AbstractValue
+final class Dinheiro implements Castable, JsonSerializable, ValueObject
 {
     private function __construct(
         private readonly float $valor,
@@ -17,9 +20,18 @@ final class Dinheiro extends AbstractValue
         }
     }
 
-    public static function fromNative($valor, string $moeda = 'BRL'): self
+    public static function fromNative(mixed $valor, string $moeda = 'BRL'): static
     {
         return new self((float) $valor, $moeda);
+    }
+
+    /**
+     * @param  array<int, string>  $arguments
+     * @return CastsAttributes<ValueObject, ValueObject>
+     */
+    public static function castUsing(array $arguments): CastsAttributes
+    {
+        return new ValueObjectCast(self::class, ...$arguments);
     }
 
     public function getNativeValue(): float
@@ -34,6 +46,13 @@ final class Dinheiro extends AbstractValue
         return new self($this->valor + $outroValor->valor, $this->moeda);
     }
 
+    public function mesmaMoeda(self $outroValor): void
+    {
+        if ($this->moeda !== $outroValor->moeda) {
+            throw new InvalidArgumentException('Não é possível realizar operações com moedas diferentes.');
+        }
+    }
+
     public function multiplicar(int $fator): self
     {
         return new self($this->valor * $fator, $this->moeda);
@@ -46,11 +65,9 @@ final class Dinheiro extends AbstractValue
             && $this->moeda === $objeto->moeda;
     }
 
-    public function mesmaMoeda(self $outroValor): void
+    public function jsonSerialize(): string
     {
-        if ($this->moeda !== $outroValor->moeda) {
-            throw new InvalidArgumentException('Não é possível realizar operações com moedas diferentes.');
-        }
+        return $this->__toString();
     }
 
     public function __toString(): string

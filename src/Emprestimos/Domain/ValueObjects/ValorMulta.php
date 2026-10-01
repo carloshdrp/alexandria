@@ -2,17 +2,16 @@
 
 namespace Emprestimos\Domain\ValueObjects;
 
-use App\ValueObjects\AbstractValue;
 use InvalidArgumentException;
 
-final class ValorMulta extends AbstractValue
+final readonly class ValorMulta
 {
     const float VALOR_MULTA = 1.00;
 
-    public function __construct(
-        private readonly int $diaAtraso,
-        private readonly Dinheiro $valorDia,
-        private readonly Dinheiro $total,
+    private function __construct(
+        private int $diaAtraso,
+        private Dinheiro $valorDia,
+        private Dinheiro $total,
     ) {}
 
     public static function calcular(int $diaAtraso): self
@@ -30,5 +29,20 @@ final class ValorMulta extends AbstractValue
     public function total(): Dinheiro
     {
         return $this->total;
+    }
+
+    public function valorDia(): Dinheiro
+    {
+        return $this->valorDia;
+    }
+
+    public function diasAtraso(): int
+    {
+        return $this->diaAtraso;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->total;
     }
 }

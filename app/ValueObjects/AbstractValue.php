@@ -2,18 +2,29 @@
 
 namespace App\ValueObjects;
 
+use App\Casts\ValueObjectCast;
+use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use JsonSerializable;
 
-abstract class AbstractValue implements JsonSerializable, ValueObject
+abstract class AbstractValue implements Castable, JsonSerializable, ValueObject
 {
-    public static function fromNative($valor)
+    protected readonly string $valor;
+
+    protected function __construct(string $valor)
     {
-        return new static($valor);
+        $this->valor = $valor;
     }
 
-    public function getNativeValue()
+    abstract public static function fromNative(mixed $valor): static;
+
+    /**
+     * @param  array<int, string>  $arguments
+     * @return CastsAttributes<ValueObject, ValueObject>
+     */
+    public static function castUsing(array $arguments): CastsAttributes
     {
-        return $this->valor;
+        return new ValueObjectCast(static::class, ...$arguments);
     }
 
     public function igual(ValueObject $objeto): bool
@@ -21,13 +32,18 @@ abstract class AbstractValue implements JsonSerializable, ValueObject
         return static::class === $objeto::class && $this->getNativeValue() === $objeto->getNativeValue();
     }
 
-    public function __toString(): string
+    public function getNativeValue(): string
     {
-        return (string) $this->valor;
+        return $this->valor;
     }
 
     public function jsonSerialize(): string
     {
         return $this->__toString();
+    }
+
+    public function __toString(): string
+    {
+        return $this->valor;
     }
 }

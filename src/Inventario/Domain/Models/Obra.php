@@ -2,7 +2,6 @@
 
 namespace Inventario\Domain\Models;
 
-use App\Casts\ValueObjectCast;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -76,7 +75,7 @@ class Obra extends Model
     protected function casts(): array
     {
         return [
-            'isbn' => ValueObjectCast::class.':'.Isbn::class,
+            'isbn' => Isbn::class,
         ];
     }
 }

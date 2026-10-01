@@ -9,9 +9,7 @@ final class CodigoPatrimonio extends AbstractValue
 {
     private const PADRAO = '/^EX-\d{6}$/';
 
-    protected readonly string $valor;
-
-    public function __construct(string $valor)
+    private function __construct(string $valor)
     {
         $normalizado = strtoupper(trim($valor));
 
@@ -19,11 +17,11 @@ final class CodigoPatrimonio extends AbstractValue
             throw new InvalidArgumentException('Código de patrimônio inválido.');
         }
 
-        $this->valor = $normalizado;
+        parent::__construct($normalizado);
     }
 
-    public static function fromNative($valor): self
+    public static function fromNative(mixed $valor): static
     {
-        return new self($valor);
+        return new self((string) $valor);
     }
 }

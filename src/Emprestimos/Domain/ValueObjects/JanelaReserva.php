@@ -9,7 +9,7 @@ final readonly class JanelaReserva
 {
     private const int DURACAO_HORAS = 48;
 
-    public function __construct(
+    private function __construct(
         private CarbonImmutable $disponibilizadaEm,
         private CarbonImmutable $expiraEm,
     ) {}
@@ -43,5 +43,11 @@ final readonly class JanelaReserva
     public function expiraEm(): CarbonImmutable
     {
         return $this->expiraEm;
+    }
+
+    public function igual(self $outra): bool
+    {
+        return $this->disponibilizadaEm->equalTo($outra->disponibilizadaEm)
+            && $this->expiraEm->equalTo($outra->expiraEm);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Emprestimos\Domain\Models;
 
-use App\Casts\ValueObjectCast;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use DomainException;
@@ -38,7 +37,7 @@ class Multa extends Model
     {
         return [
             'situacao' => MultaSituacao::class,
-            'valor' => ValueObjectCast::class.':'.Dinheiro::class,
+            'valor' => Dinheiro::class.':BRL',
             'paga_em' => 'datetime',
         ];
     }

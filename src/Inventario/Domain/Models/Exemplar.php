@@ -2,7 +2,6 @@
 
 namespace Inventario\Domain\Models;
 
-use App\Casts\ValueObjectCast;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use DomainException;
@@ -110,7 +109,7 @@ class Exemplar extends Model
             'situacao' => ExemplarSituacao::class,
             'motivo_baixa' => ExemplarMotivoBaixa::class,
             'baixado_em' => 'immutable_datetime',
-            'codigo_patrimonio' => ValueObjectCast::class.':'.CodigoPatrimonio::class,
+            'codigo_patrimonio' => CodigoPatrimonio::class,
         ];
     }
 

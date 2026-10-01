@@ -7,9 +7,7 @@ use InvalidArgumentException;
 
 final class Isbn extends AbstractValue
 {
-    protected readonly string $valor;
-
-    public function __construct(string $valor)
+    private function __construct(string $valor)
     {
         $normalizado = strtoupper(preg_replace('/[^0-9X]/', '', $valor) ?? '');
 
@@ -17,12 +15,7 @@ final class Isbn extends AbstractValue
             throw new InvalidArgumentException('ISBN inválido');
         }
 
-        $this->valor = $normalizado;
-    }
-
-    public static function fromNative($valor): self
-    {
-        return new self($valor);
+        parent::__construct($normalizado);
     }
 
     private static function valido(string $isbn): bool
@@ -57,5 +50,10 @@ final class Isbn extends AbstractValue
         }
 
         return $soma % 10 === 0;
+    }
+
+    public static function fromNative(mixed $valor): static
+    {
+        return new self((string) $valor);
     }
 }
