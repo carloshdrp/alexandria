@@ -6,7 +6,9 @@ use App\Acesso\Domain\Enums\UsuarioPapel;
 use App\Acesso\Domain\Enums\UsuarioSituacao;
 use App\Acesso\Domain\ValueObjects\Documento;
 use App\Acesso\Domain\ValueObjects\Telefone;
+use Carbon\CarbonImmutable;
 use Database\Factories\UserFactory;
+use DomainException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -25,6 +27,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function ehBibliotecario(): bool
     {
         return $this->papel === UsuarioPapel::Bibliotecario;
+    }
+
+    public function bloquear(): void
+    {
+        if ($this->estaBloqueado()) {
+            throw new DomainException('Usuário já está bloqueado.');
+        }
+
+        $this->situacao = UsuarioSituacao::Bloqueado;
+        $this->bloqueado_em = CarbonImmutable::now();
+    }
+
+    public function estaBloqueado(): bool
+    {
+        return $this->situacao === UsuarioSituacao::Bloqueado;
+    }
+
+    public function desbloquear(): void
+    {
+        if (! $this->estaBloqueado()) {
+            throw new DomainException('Usuário não está bloqueado.');
+        }
+
+        $this->situacao = UsuarioSituacao::Ativo;
+        $this->bloqueado_em = null;
     }
 
     protected function casts(): array
