@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Casts\ValueObjectCast;
-use App\Enums\UsuarioPapel;
-use App\Enums\UsuarioSituacao;
-use App\ValueObjects\Documento;
-use App\ValueObjects\Telefone;
+use App\Acesso\Domain\Enums\UsuarioPapel;
+use App\Acesso\Domain\Enums\UsuarioSituacao;
+use App\Acesso\Domain\ValueObjects\Documento;
+use App\Acesso\Domain\ValueObjects\Telefone;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -34,9 +33,9 @@ class User extends Authenticatable
             'password' => 'hashed',
             'situacao' => UsuarioSituacao::class,
             'papel' => UsuarioPapel::class,
-            'bloqueado_em' => 'datetime',
-            'documento' => ValueObjectCast::class.':'.Documento::class,
-            'telefone' => ValueObjectCast::class.':'.Telefone::class,
+            'bloqueado_em' => 'immutable_datetime',
+            'documento' => Documento::class,
+            'telefone' => Telefone::class,
         ];
     }
 }

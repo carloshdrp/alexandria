@@ -1,14 +1,13 @@
 <?php
 
-namespace App\ValueObjects;
+namespace App\Acesso\Domain\ValueObjects;
 
+use App\ValueObjects\AbstractValue;
 use InvalidArgumentException;
 
 final class Telefone extends AbstractValue
 {
-    private readonly string $valor;
-
-    public function __construct(string $valor)
+    private function __construct(string $valor)
     {
         $normalizado = preg_replace('/\D/', '', $valor) ?? '';
 
@@ -16,12 +15,7 @@ final class Telefone extends AbstractValue
             throw new InvalidArgumentException('Telefone inválido.');
         }
 
-        $this->valor = $normalizado;
-    }
-
-    public static function fromNative($valor): self
-    {
-        return new self($valor);
+        parent::__construct($normalizado);
     }
 
     private static function valido(string $numero): bool
@@ -31,5 +25,10 @@ final class Telefone extends AbstractValue
         }
 
         return true;
+    }
+
+    public static function fromNative(mixed $valor): static
+    {
+        return new self((string) $valor);
     }
 }

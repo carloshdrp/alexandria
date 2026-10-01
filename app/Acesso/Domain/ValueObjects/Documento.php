@@ -1,13 +1,12 @@
 <?php
 
-namespace App\ValueObjects;
+namespace App\Acesso\Domain\ValueObjects;
 
+use App\ValueObjects\AbstractValue;
 use InvalidArgumentException;
 
 final class Documento extends AbstractValue
 {
-    private readonly string $valor;
-
     private function __construct(string $valor)
     {
         $numeros = preg_replace('/\D/', '', $valor) ?? '';
@@ -16,12 +15,21 @@ final class Documento extends AbstractValue
             throw new InvalidArgumentException('CPF inválido.');
         }
 
-        $this->valor = $numeros;
+        parent::__construct($numeros);
     }
 
-    public static function fromNative($valor): self
+    private static function valido(string $cpf): bool
     {
-        return new self($valor);
+        if (strlen($cpf) !== 11) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function fromNative(mixed $valor): static
+    {
+        return new self((string) $valor);
     }
 
     public function formatado(): string
@@ -32,14 +40,5 @@ final class Documento extends AbstractValue
             substr($this->valor, 6, 3),
             substr($this->valor, 9, 2)
         );
-    }
-
-    private static function valido(string $cpf): bool
-    {
-        if (strlen($cpf) !== 11) {
-            return false;
-        }
-
-        return true;
     }
 }
