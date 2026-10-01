@@ -4,6 +4,7 @@ namespace Emprestimos\Domain\Models;
 
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use DateTimeInterface;
 use DomainException;
 use Emprestimos\Domain\Enums\ReservaSituacao;
 use Emprestimos\Domain\Observers\ReservaObserver;
@@ -92,6 +93,20 @@ class Reserva extends Model
         }
 
         return $query;
+    }
+
+    #[Scope]
+    protected function disponiveisVencidas(Builder $query, ?DateTimeInterface $referencia = null): Builder
+    {
+        return $query->where('situacao', ReservaSituacao::Disponivel)
+            ->where('expira_em', '<=', $referencia ?? CarbonImmutable::now());
+    }
+
+    #[Scope]
+    protected function disponiveisPorObra(Builder $query, int $obraId): Builder
+    {
+        return $query->where('obra_id', $obraId)
+            ->where('situacao', ReservaSituacao::Disponivel);
     }
 
     #[Scope]
