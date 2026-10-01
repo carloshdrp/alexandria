@@ -51,6 +51,7 @@ class Emprestimo extends Model
         return [
             'situacao' => EmprestimoSituacao::class,
             'devolvido_em' => 'immutable_datetime',
+            'encerrado_em' => 'immutable_datetime',
             'aviso_vencimento_em' => 'immutable_datetime',
             'prazo' => PrazoEmprestimoCast::class,
         ];
@@ -62,8 +63,26 @@ class Emprestimo extends Model
             throw new DomainException('Empréstimo já foi devolvido');
         }
 
+        if ($this->situacao === EmprestimoSituacao::Encerrado) {
+            throw new DomainException('O exemplar deste empréstimo foi baixado do acervo.');
+        }
+
         $this->situacao = EmprestimoSituacao::Devolvido;
         $this->devolvido_em = CarbonImmutable::now();
+    }
+
+    public function encerrarPorBaixaDoExemplar(): void
+    {
+        if ($this->situacao === EmprestimoSituacao::Devolvido) {
+            throw new DomainException('Empréstimo já foi devolvido');
+        }
+
+        if ($this->situacao === EmprestimoSituacao::Encerrado) {
+            throw new DomainException('Empréstimo já foi encerrado');
+        }
+
+        $this->situacao = EmprestimoSituacao::Encerrado;
+        $this->encerrado_em = CarbonImmutable::now();
     }
 
     public function marcarAtrasado(): void
@@ -84,6 +103,10 @@ class Emprestimo extends Model
     {
         if ($this->situacao === EmprestimoSituacao::Devolvido) {
             throw new DomainException('Não é possível renovar um empréstimo devolvido.');
+        }
+
+        if ($this->situacao === EmprestimoSituacao::Encerrado) {
+            throw new DomainException('O exemplar deste empréstimo foi baixado do acervo.');
         }
 
         if ($this->prazo->estaAtrasado()) {
@@ -116,6 +139,13 @@ class Emprestimo extends Model
     protected function doUsuario(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId);
+    }
+
+    #[Scope]
+    protected function ativoPorExemplar(Builder $query, int $exemplarId): Builder
+    {
+        return $query->where('exemplar_id', $exemplarId)
+            ->whereIn('situacao', [EmprestimoSituacao::Andamento, EmprestimoSituacao::Atrasado]);
     }
 
     #[Scope]

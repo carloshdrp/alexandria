@@ -7,6 +7,7 @@ enum EmprestimoSituacao: int
     case Andamento = 1;
     case Devolvido = 2;
     case Atrasado = 3;
+    case Encerrado = 4;
 
     public function rotulo(): string
     {
@@ -14,6 +15,7 @@ enum EmprestimoSituacao: int
             self::Andamento => 'Em andamento',
             self::Devolvido => 'Devolvido',
             self::Atrasado => 'Atrasado',
+            self::Encerrado => 'Encerrado',
         };
     }
 
@@ -23,6 +25,7 @@ enum EmprestimoSituacao: int
             self::Andamento => 'info',
             self::Devolvido => 'neutral',
             self::Atrasado => 'danger',
+            self::Encerrado => 'warning',
         };
     }
 }
