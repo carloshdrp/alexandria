@@ -51,6 +51,7 @@ class Emprestimo extends Model
         return [
             'situacao' => EmprestimoSituacao::class,
             'devolvido_em' => 'immutable_datetime',
+            'aviso_vencimento_em' => 'immutable_datetime',
             'prazo' => PrazoEmprestimoCast::class,
         ];
     }
@@ -72,6 +73,11 @@ class Emprestimo extends Model
         }
 
         $this->situacao = EmprestimoSituacao::Atrasado;
+    }
+
+    public function marcarAvisoVencimento(): void
+    {
+        $this->aviso_vencimento_em = CarbonImmutable::now();
     }
 
     public function renovar(bool $temReservaPendente, bool $temMultaPendente): void
@@ -103,12 +109,26 @@ class Emprestimo extends Model
         $prazo = $this->prazo->estender();
         $this->prazo = $prazo;
         $this->qtd_renovacoes++;
+        $this->aviso_vencimento_em = null;
     }
 
     #[Scope]
     protected function doUsuario(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId);
+    }
+
+    #[Scope]
+    protected function proximosDoVencimento(Builder $query, ?DateTimeInterface $referencia = null): Builder
+    {
+        $referencia = $referencia ? CarbonImmutable::instance($referencia) : CarbonImmutable::now();
+
+        return $query->where('situacao', EmprestimoSituacao::Andamento)
+            ->whereNull('aviso_vencimento_em')
+            ->whereBetween('prazo_devolucao', [
+                $referencia->startOfDay(),
+                $referencia->addDay()->endOfDay(),
+            ]);
     }
 
     #[Scope]
