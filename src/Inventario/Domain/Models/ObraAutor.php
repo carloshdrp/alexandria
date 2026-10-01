@@ -5,6 +5,8 @@ namespace Inventario\Domain\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,5 +32,13 @@ class ObraAutor extends Pivot
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    #[Scope]
+    protected function doAutor(Builder $query, int $autorId): Builder
+    {
+        $query->withTrashed();
+
+        return $query->where('autor_id', $autorId);
     }
 }

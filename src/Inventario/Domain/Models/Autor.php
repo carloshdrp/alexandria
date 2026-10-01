@@ -4,11 +4,14 @@ namespace Inventario\Domain\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Inventario\Domain\Observers\AutorObserver;
 
+#[ObservedBy([AutorObserver::class])]
 #[Fillable(['nome', 'user_id'])]
 #[Table('autores')]
 class Autor extends Model
