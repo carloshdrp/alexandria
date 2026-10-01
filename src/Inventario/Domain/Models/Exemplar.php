@@ -24,6 +24,10 @@ use Inventario\Domain\ValueObjects\CodigoPatrimonio;
 #[Table('exemplares')]
 class Exemplar extends Model
 {
+    protected $attributes = [
+        'situacao' => ExemplarSituacao::NoAcervo->value,
+    ];
+
     public function obra(): BelongsTo
     {
         return $this->belongsTo(Obra::class);

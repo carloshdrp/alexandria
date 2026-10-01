@@ -25,6 +25,11 @@ class Emprestimo extends Model
 
     public const int MAX_ATIVOS_POR_USUARIO = 3;
 
+    protected $attributes = [
+        'situacao' => EmprestimoSituacao::Andamento->value,
+        'qtd_renovacoes' => 0,
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

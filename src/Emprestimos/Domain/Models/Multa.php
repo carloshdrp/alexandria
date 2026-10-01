@@ -20,6 +20,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['emprestimo_id', 'user_id', 'valor', 'dias_atraso'])]
 class Multa extends Model
 {
+    protected $attributes = [
+        'situacao' => MultaSituacao::Pendente->value,
+    ];
+
     public function emprestimo(): BelongsTo
     {
         return $this->belongsTo(Emprestimo::class);
