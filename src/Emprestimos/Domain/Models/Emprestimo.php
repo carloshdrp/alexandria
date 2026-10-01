@@ -4,6 +4,7 @@ namespace Emprestimos\Domain\Models;
 
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use DateTimeInterface;
 use DomainException;
 use Emprestimos\Domain\Enums\EmprestimoSituacao;
 use Emprestimos\Domain\Observers\EmprestimoObserver;
@@ -100,6 +101,13 @@ class Emprestimo extends Model
     protected function doUsuario(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId);
+    }
+
+    #[Scope]
+    protected function vencidosEmAndamento(Builder $query, ?DateTimeInterface $referencia = null): Builder
+    {
+        return $query->where('situacao', EmprestimoSituacao::Andamento)
+            ->where('prazo_devolucao', '<', $referencia ?? CarbonImmutable::now());
     }
 
     #[Scope]
