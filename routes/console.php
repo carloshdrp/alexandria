@@ -3,6 +3,7 @@
 use Emprestimos\Domain\Services\AvisoVencimentoService;
 use Emprestimos\Domain\Services\ExpiracaoReservaService;
 use Emprestimos\Domain\Services\MarcacaoAtrasoService;
+use Emprestimos\Domain\Services\ReconciliacaoFilaReservaService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -23,6 +24,12 @@ Artisan::command('emprestimos:avisar-vencimento', function (AvisoVencimentoServi
     $this->info("Empréstimos avisados do vencimento: {$service->avisarProximos()}");
 })->purpose('Avisa os leitores cujo prazo de devolução termina em até um dia');
 
+Artisan::command('reservas:reconciliar', function (ReconciliacaoFilaReservaService $service) {
+    $this->info("Filas retomadas: {$service->reconciliar()}");
+    $this->info("Exemplares liberados: {$service->liberarExemplaresOrfaos()}");
+})->purpose('Retoma filas de reserva paradas e devolve ao acervo exemplares reservados sem fila');
+
 Schedule::command('reservas:expirar')->hourly();
+Schedule::command('reservas:reconciliar')->hourly();
 Schedule::command('emprestimos:marcar-atrasados')->daily();
 Schedule::command('emprestimos:avisar-vencimento')->daily();

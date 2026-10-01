@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 #[ObservedBy([ReservaObserver::class])]
 #[Fillable(['user_id', 'obra_id'])]
@@ -115,5 +116,19 @@ class Reserva extends Model
         return $query->where('obra_id', $obraId)
             ->where('situacao', ReservaSituacao::Aguardando)
             ->oldest();
+    }
+
+    #[Scope]
+    protected function obrasComFilaParada(Builder $query): Builder
+    {
+        return $query->select('obra_id')
+            ->distinct()
+            ->where('situacao', ReservaSituacao::Aguardando)
+            ->whereNotExists(function (QueryBuilder $disponiveis) {
+                $disponiveis->selectRaw('1')
+                    ->from('reservas', 'disponiveis')
+                    ->whereColumn('disponiveis.obra_id', 'reservas.obra_id')
+                    ->where('disponiveis.situacao', ReservaSituacao::Disponivel->value);
+            });
     }
 }
