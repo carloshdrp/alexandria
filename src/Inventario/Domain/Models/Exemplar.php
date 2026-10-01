@@ -43,10 +43,37 @@ class Exemplar extends Model
         $this->situacao = ExemplarSituacao::Emprestado;
     }
 
+    public function emprestarParaReserva(): void
+    {
+        if ($this->situacao !== ExemplarSituacao::Reservado) {
+            throw new DomainException('Exemplar não está reservado.');
+        }
+
+        $this->situacao = ExemplarSituacao::Emprestado;
+    }
+
     public function devolver(): void
     {
         if ($this->situacao !== ExemplarSituacao::Emprestado) {
             throw new DomainException('Exemplar não está emprestado.');
+        }
+
+        $this->situacao = ExemplarSituacao::NoAcervo;
+    }
+
+    public function reservar(): void
+    {
+        if ($this->situacao !== ExemplarSituacao::Emprestado) {
+            throw new DomainException('Exemplar não está emprestado.');
+        }
+
+        $this->situacao = ExemplarSituacao::Reservado;
+    }
+
+    public function liberarReserva(): void
+    {
+        if ($this->situacao !== ExemplarSituacao::Reservado) {
+            throw new DomainException('Exemplar não está reservado.');
         }
 
         $this->situacao = ExemplarSituacao::NoAcervo;

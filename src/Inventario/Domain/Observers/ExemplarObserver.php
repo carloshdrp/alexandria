@@ -10,7 +10,8 @@ class ExemplarObserver
 {
     private const array TRANSICOES_VALIDAS = [
         ExemplarSituacao::NoAcervo->value => [ExemplarSituacao::Baixado, ExemplarSituacao::Emprestado],
-        ExemplarSituacao::Emprestado->value => [ExemplarSituacao::Baixado, ExemplarSituacao::NoAcervo],
+        ExemplarSituacao::Emprestado->value => [ExemplarSituacao::Baixado, ExemplarSituacao::NoAcervo, ExemplarSituacao::Reservado],
+        ExemplarSituacao::Reservado->value => [ExemplarSituacao::Baixado, ExemplarSituacao::NoAcervo, ExemplarSituacao::Emprestado],
         ExemplarSituacao::Baixado->value => [],
     ];
 
