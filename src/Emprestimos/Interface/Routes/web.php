@@ -1,18 +1,24 @@
 <?php
 
-use Emprestimos\Application\Http\Controllers\CancelamentoReservaController;
-use Emprestimos\Application\Http\Controllers\DevolucaoEmprestimoController;
-use Emprestimos\Application\Http\Controllers\PagamentoMultaController;
-use Emprestimos\Application\Http\Controllers\RealizacaoEmprestimoController;
-use Emprestimos\Application\Http\Controllers\RenovacaoEmprestimoController;
-use Emprestimos\Application\Http\Controllers\ReservaObraController;
+use Emprestimos\Application\Livewire\Catalogo;
+use Emprestimos\Application\Livewire\EmprestimosEmAberto;
+use Emprestimos\Application\Livewire\FichaDaObra;
+use Emprestimos\Application\Livewire\MeusEmprestimos;
+use Emprestimos\Application\Livewire\MinhasMultas;
+use Emprestimos\Application\Livewire\MinhasReservas;
+use Emprestimos\Application\Livewire\MultasPendentes;
+use Emprestimos\Application\Livewire\ReservasAtivas;
+use Emprestimos\Application\Livewire\SituacaoDoCliente;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/', RealizacaoEmprestimoController::class);
-Route::post('/{emprestimo}/devolucao', DevolucaoEmprestimoController::class);
-Route::post('/{emprestimo}/renovacao', RenovacaoEmprestimoController::class);
+Route::get('/catalogo', Catalogo::class)->name('catalogo');
+Route::get('/catalogo/{obra}', FichaDaObra::class)->whereNumber('obra')->name('catalogo.obra');
 
-Route::post('/reservas', ReservaObraController::class);
-Route::post('/reservas/{reserva}/cancelamento', CancelamentoReservaController::class);
+Route::get('/meus', MeusEmprestimos::class)->name('meus');
+Route::get('/minhas-reservas', MinhasReservas::class)->name('minhas-reservas');
+Route::get('/minhas-multas', MinhasMultas::class)->name('minhas-multas');
 
-Route::post('/multas/{multa}/pagamento', PagamentoMultaController::class);
+Route::get('/', EmprestimosEmAberto::class)->name('em-aberto');
+Route::get('/reservas', ReservasAtivas::class)->name('reservas');
+Route::get('/multas', MultasPendentes::class)->name('multas');
+Route::get('/clientes/{user}', SituacaoDoCliente::class)->name('clientes.situacao');

@@ -28,11 +28,10 @@ use Emprestimos\Domain\Events\ReservaFoiExpirada;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class EmprestimosServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
-
     public function boot(): void
     {
         Event::listen(EmprestimoFoiDevolvido::class, DisponibilizarProximaReservaAposDevolucao::class);
@@ -50,8 +49,18 @@ class EmprestimosServiceProvider extends ServiceProvider
         Event::listen(ReservaFoiExpirada::class, NotificarReservaExpirada::class);
         Event::listen(ReservaFoiCancelada::class, NotificarReservaCancelada::class);
 
-        Route::middleware('web')
+        $this->loadViewsFrom(__DIR__.'/../../Interface/Views', 'emprestimos');
+
+        Livewire::addNamespace(
+            namespace: 'emprestimos',
+            classNamespace: 'Emprestimos\\Application\\Livewire',
+            classPath: __DIR__.'/../Livewire',
+            classViewPath: __DIR__.'/../../Interface/Views/livewire',
+        );
+
+        Route::middleware(['web', 'auth'])
             ->prefix('emprestimos')
+            ->name('emprestimos.')
             ->group(__DIR__.'/../../Interface/Routes/web.php');
     }
 }
