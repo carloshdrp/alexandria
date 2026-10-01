@@ -1,0 +1,239 @@
+@layer components {
+    .app-shell {
+        @apply min-h-screen bg-stone-50 text-stone-900 font-sans antialiased;
+    }
+
+    .app-nav {
+        @apply bg-white border-b border-stone-200;
+    }
+
+    .app-nav-inner {
+        @apply mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3;
+    }
+
+    .app-brand {
+        @apply mr-4 flex items-center gap-2 text-lg font-semibold tracking-tight text-stone-900;
+    }
+
+    .nav-links {
+        @apply flex flex-wrap items-center gap-1;
+    }
+
+    .nav-link {
+        @apply flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-stone-600
+        hover:bg-stone-100 hover:text-stone-900;
+    }
+
+    .nav-link-active {
+        @apply bg-stone-100 text-stone-900;
+    }
+
+    .nav-user {
+        @apply ml-auto flex items-center gap-3 text-sm text-stone-600;
+    }
+
+    .page {
+        @apply mx-auto max-w-6xl px-4 py-8;
+    }
+
+    .page-narrow {
+        @apply mx-auto max-w-md px-4 py-12;
+    }
+
+    .page-header {
+        @apply mb-6 flex flex-wrap items-end justify-between gap-4;
+    }
+
+    .page-title {
+        @apply text-2xl font-semibold tracking-tight;
+    }
+
+    .page-subtitle {
+        @apply mt-1 text-sm text-stone-500;
+    }
+
+    .page-actions {
+        @apply flex items-center gap-2;
+    }
+
+    .section {
+        @apply mb-8;
+    }
+
+    .section-title {
+        @apply mb-3 text-base font-semibold text-stone-800;
+    }
+
+    .painel {
+        @apply rounded-lg border border-stone-200 bg-white p-5 shadow-xs;
+    }
+
+    .painel-grid {
+        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+    }
+
+    .stat-grid {
+        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-4;
+    }
+
+    .stat {
+        @apply rounded-lg border border-stone-200 bg-white p-4;
+    }
+
+    .stat-label {
+        @apply text-xs font-medium uppercase tracking-wide text-stone-500;
+    }
+
+    .stat-value {
+        @apply mt-1 text-2xl font-semibold;
+    }
+
+    .obra-card {
+        @apply flex flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-xs transition hover:shadow-md;
+    }
+
+    .obra-capa {
+        @apply aspect-3/4 w-full bg-stone-100 object-cover transition-opacity duration-300;
+    }
+
+    .obra-capa-carregando {
+        @apply opacity-0;
+    }
+
+    .obra-capa-vazia {
+        @apply flex aspect-3/4 w-full items-center justify-center bg-stone-100 px-4 text-center text-sm text-stone-400;
+    }
+
+    .obra-body {
+        @apply flex flex-1 flex-col gap-1 p-4;
+    }
+
+    .obra-titulo {
+        @apply font-semibold leading-snug text-stone-900;
+    }
+
+    .obra-meta {
+        @apply text-sm text-stone-500;
+    }
+
+    .obra-disponibilidade {
+        @apply mt-auto pt-2 text-sm font-medium;
+    }
+
+    .table-wrap {
+        @apply overflow-x-auto rounded-lg border border-stone-200 bg-white;
+    }
+
+    .table-actions {
+        @apply flex flex-wrap items-center justify-end gap-2;
+    }
+
+    .form {
+        @apply space-y-4;
+    }
+
+    .form-row {
+        @apply grid gap-4 sm:grid-cols-2;
+    }
+
+    .form-inline {
+        @apply flex items-end gap-3;
+    }
+
+    .form-inline:has(.form-error) {
+        @apply pb-5;
+    }
+
+    .form-field {
+        @apply flex flex-col gap-1;
+    }
+
+    .form-inline .form-field {
+        @apply relative;
+    }
+
+    .form-inline .form-field > .form-hint,
+    .form-inline .form-field > .form-error {
+        @apply absolute top-full left-0 mt-1 w-full;
+    }
+
+    .form-inline .form-field:has(> .form-error) > .form-hint {
+        @apply hidden;
+    }
+
+    .form-label {
+        @apply text-sm font-medium text-stone-700;
+    }
+
+    .form-check {
+        @apply flex items-center gap-2 text-sm text-stone-700;
+    }
+
+    .form-hint {
+        @apply text-xs text-stone-500;
+    }
+
+    .form-error {
+        @apply text-xs text-red-600;
+    }
+
+    .form-actions {
+        @apply flex flex-wrap items-center justify-end gap-3 pt-2;
+    }
+
+    .autoria {
+        @apply flex flex-col gap-2 rounded-lg border border-stone-200 bg-white p-2;
+    }
+
+    .autoria-item {
+        @apply flex items-center gap-3 rounded-md px-2 py-1;
+    }
+
+    .autoria-ordem {
+        @apply inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-stone-100 text-xs font-medium text-stone-600;
+    }
+
+    .autoria-nome {
+        @apply grow text-sm text-stone-700;
+    }
+
+    .empty-state {
+        @apply rounded-lg border border-dashed border-stone-300 bg-white px-6 py-10 text-center text-sm text-stone-500;
+    }
+
+    .pagination-wrap {
+        @apply mt-6;
+    }
+
+    .detail-list {
+        @apply grid gap-x-6 gap-y-2 text-sm sm:grid-cols-[max-content_1fr];
+    }
+
+    .detail-list dt {
+        @apply font-medium text-stone-500;
+    }
+
+    .detail-list dd {
+        @apply text-stone-900;
+    }
+
+    .auth-card {
+        @apply rounded-lg border border-stone-200 bg-white p-6 shadow-xs;
+    }
+
+    .auth-title {
+        @apply mb-1 text-xl font-semibold;
+    }
+
+    .auth-subtitle {
+        @apply mb-6 text-sm text-stone-500;
+    }
+
+    .auth-footer {
+        @apply mt-6 text-center text-sm text-stone-500;
+    }
+
+    .loading-hint {
+        @apply text-xs text-stone-400;
+    }
+}
