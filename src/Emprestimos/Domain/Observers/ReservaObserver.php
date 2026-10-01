@@ -10,7 +10,7 @@ class ReservaObserver
 {
     private const array TRANSICOES_VALIDAS = [
         ReservaSituacao::Aguardando->value => [ReservaSituacao::Disponivel, ReservaSituacao::Cancelada],
-        ReservaSituacao::Disponivel->value => [ReservaSituacao::Atendida, ReservaSituacao::Expirada, ReservaSituacao::Cancelada],
+        ReservaSituacao::Disponivel->value => [ReservaSituacao::Atendida, ReservaSituacao::Expirada, ReservaSituacao::Cancelada, ReservaSituacao::Aguardando],
         ReservaSituacao::Atendida->value => [],
         ReservaSituacao::Expirada->value => [],
         ReservaSituacao::Cancelada->value => [],

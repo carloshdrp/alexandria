@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 #[ObservedBy([ReservaObserver::class])]
-#[Fillable(['user_id', 'obra_id'])]
+#[Fillable(['user_id', 'obra_id', 'enfileirada_em'])]
 class Reserva extends Model
 {
     protected $attributes = [
@@ -31,10 +31,23 @@ class Reserva extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function reenfileirar(): void
+    {
+        if ($this->situacao !== ReservaSituacao::Disponivel) {
+            throw new DomainException('Reserva não está disponível');
+        }
+
+        $this->exemplar_id = null;
+        $this->janela = null;
+        $this->enfileirada_em = CarbonImmutable::now();
+        $this->situacao = ReservaSituacao::Aguardando;
+    }
+
     protected function casts(): array
     {
         return [
             'situacao' => ReservaSituacao::class,
+            'enfileirada_em' => 'immutable_datetime',
             'janela' => JanelaReservaCast::class,
         ];
     }
@@ -104,6 +117,13 @@ class Reserva extends Model
     }
 
     #[Scope]
+    protected function disponiveisPorExemplar(Builder $query, int $exemplarId): Builder
+    {
+        return $query->where('exemplar_id', $exemplarId)
+            ->where('situacao', ReservaSituacao::Disponivel);
+    }
+
+    #[Scope]
     protected function disponiveisPorObra(Builder $query, int $obraId): Builder
     {
         return $query->where('obra_id', $obraId)
@@ -115,7 +135,7 @@ class Reserva extends Model
     {
         return $query->where('obra_id', $obraId)
             ->where('situacao', ReservaSituacao::Aguardando)
-            ->oldest();
+            ->oldest('enfileirada_em');
     }
 
     #[Scope]

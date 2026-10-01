@@ -2,6 +2,7 @@
 
 namespace Emprestimos\Application\Providers;
 
+use Emprestimos\Application\Listeners\AjustarFilaDeReservaAposBaixa;
 use Emprestimos\Application\Listeners\DisponibilizarProximaReservaAposCancelamento;
 use Emprestimos\Application\Listeners\DisponibilizarProximaReservaAposDevolucao;
 use Emprestimos\Application\Listeners\DisponibilizarProximaReservaAposExpiracao;
@@ -14,8 +15,10 @@ use Emprestimos\Application\Listeners\NotificarEmprestimoRenovado;
 use Emprestimos\Application\Listeners\NotificarMultaGerada;
 use Emprestimos\Application\Listeners\NotificarMultaPaga;
 use Emprestimos\Application\Listeners\NotificarReservaCancelada;
+use Emprestimos\Application\Listeners\NotificarReservaCanceladaPorIndisponibilidade;
 use Emprestimos\Application\Listeners\NotificarReservaDisponivel;
 use Emprestimos\Application\Listeners\NotificarReservaExpirada;
+use Emprestimos\Application\Listeners\NotificarReservaReenfileirada;
 use Emprestimos\Application\Listeners\NotificarVencimentoProximo;
 use Emprestimos\Domain\Events\EmprestimoFoiAtrasado;
 use Emprestimos\Domain\Events\EmprestimoFoiAvisadoDoVencimento;
@@ -26,8 +29,10 @@ use Emprestimos\Domain\Events\EmprestimoFoiRenovado;
 use Emprestimos\Domain\Events\MultaFoiGerada;
 use Emprestimos\Domain\Events\MultaFoiPaga;
 use Emprestimos\Domain\Events\ReservaFoiCancelada;
+use Emprestimos\Domain\Events\ReservaFoiCanceladaPorIndisponibilidade;
 use Emprestimos\Domain\Events\ReservaFoiDisponibilizada;
 use Emprestimos\Domain\Events\ReservaFoiExpirada;
+use Emprestimos\Domain\Events\ReservaFoiReenfileirada;
 use Emprestimos\Application\Policies\EmprestimoPolicy;
 use Emprestimos\Application\Policies\MultaPolicy;
 use Emprestimos\Application\Policies\ReservaPolicy;
@@ -50,6 +55,7 @@ class EmprestimosServiceProvider extends ServiceProvider
         Event::listen(ReservaFoiCancelada::class, DisponibilizarProximaReservaAposCancelamento::class);
 
         Event::listen(ExemplarFoiBaixado::class, EncerrarEmprestimoDoExemplarBaixado::class);
+        Event::listen(ExemplarFoiBaixado::class, AjustarFilaDeReservaAposBaixa::class);
 
         Event::listen(EmprestimoFoiRealizado::class, NotificarEmprestimoRealizado::class);
         Event::listen(EmprestimoFoiDevolvido::class, NotificarEmprestimoDevolvido::class);
@@ -62,6 +68,8 @@ class EmprestimosServiceProvider extends ServiceProvider
         Event::listen(ReservaFoiExpirada::class, NotificarReservaExpirada::class);
         Event::listen(ReservaFoiCancelada::class, NotificarReservaCancelada::class);
         Event::listen(EmprestimoFoiEncerradoPorBaixa::class, NotificarEmprestimoEncerrado::class);
+        Event::listen(ReservaFoiCanceladaPorIndisponibilidade::class, NotificarReservaCanceladaPorIndisponibilidade::class);
+        Event::listen(ReservaFoiReenfileirada::class, NotificarReservaReenfileirada::class);
 
         Gate::policy(Emprestimo::class, EmprestimoPolicy::class);
         Gate::policy(Reserva::class, ReservaPolicy::class);
