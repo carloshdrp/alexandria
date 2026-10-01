@@ -18,7 +18,8 @@ class Autor extends Model
         return $this->belongsToMany(Obra::class, 'obra_autores')
             ->using(ObraAutor::class)
             ->withPivot('ordem')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->wherePivotNull('deleted_at');
     }
 
     public function user(): BelongsTo

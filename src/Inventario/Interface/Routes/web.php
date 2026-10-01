@@ -1,22 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inventario\Application\Http\Controllers\AtualizacaoObraController;
-use Inventario\Application\Http\Controllers\BaixaExemplarController;
-use Inventario\Application\Http\Controllers\CadastroAutorController;
-use Inventario\Application\Http\Controllers\CadastroCategoriaController;
-use Inventario\Application\Http\Controllers\CadastroEditoraController;
-use Inventario\Application\Http\Controllers\CadastroExemplarController;
-use Inventario\Application\Http\Controllers\CadastroObraController;
-use Inventario\Application\Http\Controllers\RemocaoObraController;
+use Inventario\Application\Livewire\Exemplares;
+use Inventario\Application\Livewire\ExemplaresDaObra;
+use Inventario\Application\Livewire\FormularioObra;
+use Inventario\Application\Livewire\Obras;
 
-Route::post('/obras', CadastroObraController::class);
-Route::post('/obras/{obra}', AtualizacaoObraController::class);
-Route::delete('/obras/{obra}', RemocaoObraController::class);
-Route::post('/obras/{obra}/exemplares', CadastroExemplarController::class);
-
-Route::post('/exemplares/{exemplar}/baixa', BaixaExemplarController::class);
-
-Route::post('/autores', CadastroAutorController::class);
-Route::post('/editoras', CadastroEditoraController::class);
-Route::post('/categorias', CadastroCategoriaController::class);
+Route::get('/obras', Obras::class)->name('obras');
+Route::get('/obras/nova', FormularioObra::class)->name('obras.nova');
+Route::get('/obras/{obra}/editar', FormularioObra::class)->name('obras.editar');
+Route::get('/obras/{obra}/exemplares', ExemplaresDaObra::class)->name('obras.exemplares');
+Route::get('/exemplares', Exemplares::class)->name('exemplares');

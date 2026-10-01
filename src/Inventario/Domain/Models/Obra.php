@@ -39,16 +39,24 @@ class Obra extends Model
             ->using(ObraAutor::class)
             ->withPivot('ordem')
             ->withTimestamps()
+            ->wherePivotNull('deleted_at')
             ->orderByPivot('ordem');
     }
 
     public function definirAutores(array $autores, int $userId): void
     {
+        ObraAutor::onlyTrashed()
+            ->where('obra_id', $this->id)
+            ->whereIn('autor_id', $autores)
+            ->restore();
+
         $this->autores()->sync(
             collect($autores)->mapWithKeys(
                 fn (int $autorId, int $posicao) => [$autorId => ['ordem' => $posicao + 1, 'user_id' => $userId]]
             )->all()
         );
+
+        $this->unsetRelation('autores');
     }
 
     public function exemplares(): HasMany
