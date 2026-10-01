@@ -4,6 +4,7 @@ namespace Inventario\Domain\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Inventario\Domain\Events\ObraFoiAtualizada;
 use Inventario\Domain\Models\Obra;
 use Inventario\Domain\ValueObjects\Isbn;
 
@@ -13,6 +14,9 @@ class AtualizacaoObraService
         private readonly ArmazenadorCapaObra $armazenadorCapa,
     ) {}
 
+    /**
+     * @param  array<string, mixed>  $dados
+     */
     public function atualizar(Obra $obra, array $dados, ?UploadedFile $capa = null): Obra
     {
         $capaAnterior = $obra->capa_path;
@@ -39,6 +43,8 @@ class AtualizacaoObraService
         if ($capa !== null && $capaAnterior !== null) {
             $this->armazenadorCapa->remover($capaAnterior);
         }
+
+        event(new ObraFoiAtualizada($obra));
 
         return $obra;
     }

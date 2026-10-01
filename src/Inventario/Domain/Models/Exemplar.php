@@ -79,6 +79,15 @@ class Exemplar extends Model
         $this->situacao = ExemplarSituacao::NoAcervo;
     }
 
+    public function alterarEstadoConservacao(ExemplarEstadoConservacao $estado): void
+    {
+        if ($this->situacao === ExemplarSituacao::Baixado) {
+            throw new DomainException('Exemplar baixado não pode ser editado.');
+        }
+
+        $this->estado_conservacao = $estado;
+    }
+
     public function baixar(ExemplarMotivoBaixa $motivo): void
     {
         if ($this->situacao === ExemplarSituacao::Baixado) {
