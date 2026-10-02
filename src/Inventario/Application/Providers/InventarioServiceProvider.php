@@ -4,10 +4,10 @@ namespace Inventario\Application\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 use Inventario\Application\Listeners\GerarMiniaturaDaCapa;
 use Inventario\Domain\Events\ObraFoiAtualizada;
 use Inventario\Domain\Events\ObraFoiCadastrada;
-use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
 class InventarioServiceProvider extends ServiceProvider

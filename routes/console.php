@@ -16,6 +16,11 @@ Artisan::command('reservas:expirar', function (ExpiracaoReservaService $service)
     $this->info("Reservas expiradas: {$service->expirarVencidas()}");
 })->purpose('Expira reservas disponíveis cuja janela de retirada venceu');
 
+Artisan::command('reservas:reconciliar', function (ReconciliacaoFilaReservaService $service) {
+    $this->info("Filas retomadas: {$service->reconciliar()}");
+    $this->info("Exemplares liberados: {$service->liberarExemplaresOrfaos()}");
+})->purpose('Retoma filas de reserva paradas e devolve ao acervo exemplares reservados sem fila');
+
 Artisan::command('emprestimos:marcar-atrasados', function (MarcacaoAtrasoService $service) {
     $this->info("Empréstimos marcados como atrasados: {$service->marcarVencidos()}");
 })->purpose('Marca como atrasados os empréstimos em andamento com prazo vencido');
@@ -23,11 +28,6 @@ Artisan::command('emprestimos:marcar-atrasados', function (MarcacaoAtrasoService
 Artisan::command('emprestimos:avisar-vencimento', function (AvisoVencimentoService $service) {
     $this->info("Empréstimos avisados do vencimento: {$service->avisarProximos()}");
 })->purpose('Avisa os leitores cujo prazo de devolução termina em até um dia');
-
-Artisan::command('reservas:reconciliar', function (ReconciliacaoFilaReservaService $service) {
-    $this->info("Filas retomadas: {$service->reconciliar()}");
-    $this->info("Exemplares liberados: {$service->liberarExemplaresOrfaos()}");
-})->purpose('Retoma filas de reserva paradas e devolve ao acervo exemplares reservados sem fila');
 
 Schedule::command('reservas:expirar')->hourly();
 Schedule::command('reservas:reconciliar')->hourly();

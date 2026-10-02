@@ -20,6 +20,9 @@ use Emprestimos\Application\Listeners\NotificarReservaDisponivel;
 use Emprestimos\Application\Listeners\NotificarReservaExpirada;
 use Emprestimos\Application\Listeners\NotificarReservaReenfileirada;
 use Emprestimos\Application\Listeners\NotificarVencimentoProximo;
+use Emprestimos\Application\Policies\EmprestimoPolicy;
+use Emprestimos\Application\Policies\MultaPolicy;
+use Emprestimos\Application\Policies\ReservaPolicy;
 use Emprestimos\Domain\Events\EmprestimoFoiAtrasado;
 use Emprestimos\Domain\Events\EmprestimoFoiAvisadoDoVencimento;
 use Emprestimos\Domain\Events\EmprestimoFoiDevolvido;
@@ -33,17 +36,14 @@ use Emprestimos\Domain\Events\ReservaFoiCanceladaPorIndisponibilidade;
 use Emprestimos\Domain\Events\ReservaFoiDisponibilizada;
 use Emprestimos\Domain\Events\ReservaFoiExpirada;
 use Emprestimos\Domain\Events\ReservaFoiReenfileirada;
-use Emprestimos\Application\Policies\EmprestimoPolicy;
-use Emprestimos\Application\Policies\MultaPolicy;
-use Emprestimos\Application\Policies\ReservaPolicy;
 use Emprestimos\Domain\Models\Emprestimo;
 use Emprestimos\Domain\Models\Multa;
 use Emprestimos\Domain\Models\Reserva;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
-use Inventario\Domain\Events\Integracao\ExemplarFoiBaixado;
 use Illuminate\Support\ServiceProvider;
+use Inventario\Domain\Events\Integracao\ExemplarFoiBaixado;
 use Livewire\Livewire;
 
 class EmprestimosServiceProvider extends ServiceProvider
