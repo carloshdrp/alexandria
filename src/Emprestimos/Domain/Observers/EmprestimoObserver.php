@@ -9,9 +9,10 @@ use Emprestimos\Domain\Models\Emprestimo;
 class EmprestimoObserver
 {
     private const array TRANSICOES_VALIDAS = [
-        EmprestimoSituacao::Andamento->value => [EmprestimoSituacao::Devolvido, EmprestimoSituacao::Atrasado],
-        EmprestimoSituacao::Atrasado->value => [EmprestimoSituacao::Devolvido],
+        EmprestimoSituacao::Andamento->value => [EmprestimoSituacao::Devolvido, EmprestimoSituacao::Atrasado, EmprestimoSituacao::Encerrado],
+        EmprestimoSituacao::Atrasado->value => [EmprestimoSituacao::Devolvido, EmprestimoSituacao::Encerrado],
         EmprestimoSituacao::Devolvido->value => [],
+        EmprestimoSituacao::Encerrado->value => [],
     ];
 
     public function saving(Emprestimo $emprestimo): void
