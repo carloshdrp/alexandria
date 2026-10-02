@@ -18,6 +18,8 @@ parameters:
             - bootstrap/cache
             - storage
             - vendor
+            - app/Acesso/Tests/*
+            - src/*/Tests/*
 
     tmpDir: storage/phpstan
 
