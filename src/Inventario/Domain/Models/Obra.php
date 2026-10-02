@@ -23,7 +23,7 @@ class Obra extends Model
 {
     use SoftDeletes;
 
-    protected $appends = ['capa_url'];
+    protected $appends = ['capa_url', 'capa_miniatura_url'];
 
     public function editora(): BelongsTo
     {
@@ -79,6 +79,17 @@ class Obra extends Model
             }
 
             return (new ArmazenadorCapaObra)->url($this->capa_path);
+        });
+    }
+
+    protected function capaMiniaturaUrl(): Attribute
+    {
+        return Attribute::get(function (): ?string {
+            if ($this->capa_miniatura_path === null) {
+                return null;
+            }
+
+            return (new ArmazenadorCapaObra)->url($this->capa_miniatura_path);
         });
     }
 
