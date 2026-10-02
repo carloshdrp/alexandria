@@ -13,6 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Inventario\Domain\Observers\AutorObserver;
 
+/**
+ * @property int $id
+ * @property string $nome
+ * @property int $user_id
+ */
 #[ObservedBy([AutorObserver::class])]
 #[Fillable(['nome', 'user_id'])]
 #[Table('autores')]
@@ -21,6 +26,9 @@ class Autor extends Model
     /** @use HasFactory<AutorFactory> */
     use HasFactory;
 
+    /**
+     * @return BelongsToMany<Obra, $this, ObraAutor>
+     */
     public function obras(): BelongsToMany
     {
         return $this->belongsToMany(Obra::class, 'obra_autores')
@@ -30,6 +38,9 @@ class Autor extends Model
             ->wherePivotNull('deleted_at');
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

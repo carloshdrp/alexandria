@@ -20,6 +20,18 @@ use Inventario\Domain\Enums\ExemplarSituacao;
 use Inventario\Domain\Observers\ExemplarObserver;
 use Inventario\Domain\ValueObjects\CodigoPatrimonio;
 
+/**
+ * @property int $id
+ * @property int $obra_id
+ * @property int $user_id
+ * @property CodigoPatrimonio $codigo_patrimonio
+ * @property ExemplarSituacao $situacao
+ * @property ExemplarEstadoConservacao $estado_conservacao
+ * @property ExemplarMotivoBaixa|null $motivo_baixa
+ * @property CarbonImmutable|null $baixado_em
+ * @property-read Obra $obra
+ * @property-read User $user
+ */
 #[ObservedBy([ExemplarObserver::class])]
 #[Fillable(['obra_id', 'codigo_patrimonio', 'estado_conservacao', 'user_id'])]
 #[Table('exemplares')]
@@ -32,11 +44,17 @@ class Exemplar extends Model
         'situacao' => ExemplarSituacao::NoAcervo->value,
     ];
 
+    /**
+     * @return BelongsTo<Obra, $this>
+     */
     public function obra(): BelongsTo
     {
         return $this->belongsTo(Obra::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -118,6 +136,10 @@ class Exemplar extends Model
         ];
     }
 
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
     #[Scope]
     protected function disponivelPorObra(Builder $query, int $obraId): Builder
     {
@@ -125,6 +147,10 @@ class Exemplar extends Model
             ->where('situacao', ExemplarSituacao::NoAcervo);
     }
 
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
     #[Scope]
     protected function naoBaixadosPorObra(Builder $query, int $obraId): Builder
     {

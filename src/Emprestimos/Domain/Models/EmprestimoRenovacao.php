@@ -20,11 +20,17 @@ class EmprestimoRenovacao extends Model
     /** @use HasFactory<EmprestimoRenovacaoFactory> */
     use HasFactory;
 
+    /**
+     * @return BelongsTo<Emprestimo, $this>
+     */
     public function emprestimo(): BelongsTo
     {
         return $this->belongsTo(Emprestimo::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

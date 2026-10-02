@@ -17,6 +17,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property Documento $documento
+ * @property Telefone|null $telefone
+ * @property UsuarioSituacao $situacao
+ * @property UsuarioPapel $papel
+ * @property CarbonImmutable|null $bloqueado_em
+ */
 #[Fillable(['name', 'email', 'password', 'documento', 'telefone', 'situacao', 'papel', 'bloqueado_em'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail

@@ -9,17 +9,33 @@ use DateTimeInterface;
 use DomainException;
 use Emprestimos\Domain\Enums\EmprestimoSituacao;
 use Emprestimos\Domain\Observers\EmprestimoObserver;
+use Emprestimos\Domain\ValueObjects\PrazoEmprestimo;
 use Emprestimos\Infrastructure\Casts\PrazoEmprestimoCast;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $exemplar_id
+ * @property EmprestimoSituacao $situacao
+ * @property int $qtd_renovacoes
+ * @property PrazoEmprestimo $prazo
+ * @property CarbonImmutable|null $devolvido_em
+ * @property CarbonImmutable|null $encerrado_em
+ * @property CarbonImmutable|null $aviso_vencimento_em
+ * @property-read User $user
+ * @property-read Collection<int, EmprestimoRenovacao> $renovacoes
+ * @property-read Multa|null $multa
+ */
 #[ObservedBy([EmprestimoObserver::class])]
 #[Fillable(['user_id', 'exemplar_id'])]
 class Emprestimo extends Model
@@ -36,30 +52,28 @@ class Emprestimo extends Model
         'qtd_renovacoes' => 0,
     ];
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return HasMany<EmprestimoRenovacao, $this>
+     */
     public function renovacoes(): HasMany
     {
         return $this->hasMany(EmprestimoRenovacao::class);
     }
 
+    /**
+     * @return HasOne<Multa, $this>
+     */
     public function multa(): HasOne
     {
         return $this->hasOne(Multa::class);
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'situacao' => EmprestimoSituacao::class,
-            'devolvido_em' => 'immutable_datetime',
-            'encerrado_em' => 'immutable_datetime',
-            'aviso_vencimento_em' => 'immutable_datetime',
-            'prazo' => PrazoEmprestimoCast::class,
-        ];
     }
 
     public function devolver(): void
@@ -140,12 +154,45 @@ class Emprestimo extends Model
         $this->aviso_vencimento_em = null;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    protected function casts(): array
+    {
+        return [
+            'situacao' => EmprestimoSituacao::class,
+            'devolvido_em' => 'immutable_datetime',
+            'encerrado_em' => 'immutable_datetime',
+            'aviso_vencimento_em' => 'immutable_datetime',
+            'prazo' => PrazoEmprestimoCast::class,
+        ];
+    }
+
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
     #[Scope]
     protected function doUsuario(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId);
     }
 
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
+    #[Scope]
+    protected function ativosPorUsuario(Builder $query, int $userId): Builder
+    {
+        return $query->where('user_id', $userId)
+            ->whereIn('situacao', [EmprestimoSituacao::Andamento, EmprestimoSituacao::Atrasado]);
+    }
+
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
     #[Scope]
     protected function ativoPorExemplar(Builder $query, int $exemplarId): Builder
     {
@@ -153,6 +200,21 @@ class Emprestimo extends Model
             ->whereIn('situacao', [EmprestimoSituacao::Andamento, EmprestimoSituacao::Atrasado]);
     }
 
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
+    #[Scope]
+    protected function vencidosEmAndamento(Builder $query, ?DateTimeInterface $referencia = null): Builder
+    {
+        return $query->where('situacao', EmprestimoSituacao::Andamento)
+            ->where('prazo_devolucao', '<', $referencia ?? CarbonImmutable::now());
+    }
+
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
     #[Scope]
     protected function proximosDoVencimento(Builder $query, ?DateTimeInterface $referencia = null): Builder
     {
@@ -164,19 +226,5 @@ class Emprestimo extends Model
                 $referencia->startOfDay(),
                 $referencia->addDay()->endOfDay(),
             ]);
-    }
-
-    #[Scope]
-    protected function vencidosEmAndamento(Builder $query, ?DateTimeInterface $referencia = null): Builder
-    {
-        return $query->where('situacao', EmprestimoSituacao::Andamento)
-            ->where('prazo_devolucao', '<', $referencia ?? CarbonImmutable::now());
-    }
-
-    #[Scope]
-    protected function ativosPorUsuario(Builder $query, int $userId): Builder
-    {
-        return $query->where('user_id', $userId)
-            ->whereIn('situacao', [EmprestimoSituacao::Andamento, EmprestimoSituacao::Atrasado]);
     }
 }

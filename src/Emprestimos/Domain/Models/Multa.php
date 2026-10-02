@@ -17,6 +17,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $emprestimo_id
+ * @property int $user_id
+ * @property MultaSituacao $situacao
+ * @property Dinheiro $valor
+ * @property int $dias_atraso
+ * @property CarbonImmutable|null $paga_em
+ * @property-read Emprestimo $emprestimo
+ * @property-read User $user
+ */
 #[ObservedBy([MultaObserver::class])]
 #[Fillable(['emprestimo_id', 'user_id', 'valor', 'dias_atraso'])]
 class Multa extends Model
@@ -28,23 +39,20 @@ class Multa extends Model
         'situacao' => MultaSituacao::Pendente->value,
     ];
 
+    /**
+     * @return BelongsTo<Emprestimo, $this>
+     */
     public function emprestimo(): BelongsTo
     {
         return $this->belongsTo(Emprestimo::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'situacao' => MultaSituacao::class,
-            'valor' => Dinheiro::class.':BRL',
-            'paga_em' => 'datetime',
-        ];
     }
 
     public function pagar(): void
@@ -57,12 +65,32 @@ class Multa extends Model
         $this->paga_em = CarbonImmutable::now();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    protected function casts(): array
+    {
+        return [
+            'situacao' => MultaSituacao::class,
+            'valor' => Dinheiro::class.':BRL',
+            'paga_em' => 'datetime',
+        ];
+    }
+
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
     #[Scope]
     protected function doUsuario(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId);
     }
 
+    /**
+     * @param  Builder<$this>  $query
+     * @return Builder<$this>
+     */
     #[Scope]
     protected function pendentePorUsuario(Builder $query, int $userId): Builder
     {

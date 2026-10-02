@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Inventario\Domain\Observers\CategoriaObserver;
 
+/**
+ * @property int $id
+ * @property string $nome
+ * @property int $user_id
+ */
 #[ObservedBy([CategoriaObserver::class])]
 #[Fillable(['nome', 'user_id'])]
 class Categoria extends Model
@@ -18,6 +23,9 @@ class Categoria extends Model
     /** @use HasFactory<CategoriaFactory> */
     use HasFactory;
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
