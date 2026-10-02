@@ -3,10 +3,12 @@
 namespace Emprestimos\Domain\Models;
 
 use App\Models\User;
+use Database\Factories\EmprestimoRenovacaoFactory;
 use Emprestimos\Domain\Observers\EmprestimoRenovacaoObserver;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -15,6 +17,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Table('emprestimo_renovacoes')]
 class EmprestimoRenovacao extends Model
 {
+    /** @use HasFactory<EmprestimoRenovacaoFactory> */
+    use HasFactory;
+
     public function emprestimo(): BelongsTo
     {
         return $this->belongsTo(Emprestimo::class);

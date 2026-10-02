@@ -3,11 +3,13 @@
 namespace Inventario\Domain\Models;
 
 use App\Models\User;
+use Database\Factories\ObraFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,7 +23,8 @@ use Inventario\Domain\ValueObjects\Isbn;
 #[Fillable(['titulo', 'isbn', 'editora_id', 'categoria_id', 'user_id', 'ano_publicacao'])]
 class Obra extends Model
 {
-    use SoftDeletes;
+    /** @use HasFactory<ObraFactory> */
+    use HasFactory, SoftDeletes;
 
     protected $appends = ['capa_url', 'capa_miniatura_url'];
 

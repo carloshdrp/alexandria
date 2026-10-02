@@ -3,8 +3,10 @@
 namespace Inventario\Domain\Models;
 
 use App\Models\User;
+use Database\Factories\CategoriaFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Inventario\Domain\Observers\CategoriaObserver;
@@ -13,6 +15,9 @@ use Inventario\Domain\Observers\CategoriaObserver;
 #[Fillable(['nome', 'user_id'])]
 class Categoria extends Model
 {
+    /** @use HasFactory<CategoriaFactory> */
+    use HasFactory;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

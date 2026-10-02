@@ -4,6 +4,7 @@ namespace Emprestimos\Domain\Models;
 
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Database\Factories\EmprestimoFactory;
 use DateTimeInterface;
 use DomainException;
 use Emprestimos\Domain\Enums\EmprestimoSituacao;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +24,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 #[Fillable(['user_id', 'exemplar_id'])]
 class Emprestimo extends Model
 {
+    /** @use HasFactory<EmprestimoFactory> */
+    use HasFactory;
+
     public const int MAX_RENOVACOES = 2;
 
     public const int MAX_ATIVOS_POR_USUARIO = 3;

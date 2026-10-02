@@ -4,6 +4,7 @@ namespace Emprestimos\Domain\Models;
 
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Database\Factories\ReservaFactory;
 use DateTimeInterface;
 use DomainException;
 use Emprestimos\Domain\Enums\ReservaSituacao;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -22,6 +24,9 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 #[Fillable(['user_id', 'obra_id', 'enfileirada_em'])]
 class Reserva extends Model
 {
+    /** @use HasFactory<ReservaFactory> */
+    use HasFactory;
+
     protected $attributes = [
         'situacao' => ReservaSituacao::Aguardando->value,
     ];

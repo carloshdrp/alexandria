@@ -4,12 +4,14 @@ namespace Inventario\Domain\Models;
 
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Database\Factories\ExemplarFactory;
 use DomainException;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Inventario\Domain\Enums\ExemplarEstadoConservacao;
@@ -23,6 +25,9 @@ use Inventario\Domain\ValueObjects\CodigoPatrimonio;
 #[Table('exemplares')]
 class Exemplar extends Model
 {
+    /** @use HasFactory<ExemplarFactory> */
+    use HasFactory;
+
     protected $attributes = [
         'situacao' => ExemplarSituacao::NoAcervo->value,
     ];

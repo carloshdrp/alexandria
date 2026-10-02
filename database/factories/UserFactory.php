@@ -2,7 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Acesso\Domain\Enums\UsuarioPapel;
+use App\Acesso\Domain\Enums\UsuarioSituacao;
 use App\Models\User;
+use App\Acesso\Domain\ValueObjects\Documento;
+use App\Acesso\Domain\ValueObjects\Telefone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -12,14 +16,9 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
     protected static ?string $password;
 
     /**
-     * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -29,17 +28,33 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'documento' => Documento::fromNative(fake()->unique()->numerify('###########')),
+            'telefone' => Telefone::fromNative('119'.fake()->numerify('########')),
+            'papel' => UsuarioPapel::Cliente,
+            'situacao' => UsuarioSituacao::Ativo,
             'remember_token' => Str::random(10),
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
+    public function naoVerificado(): static
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function bibliotecario(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'papel' => UsuarioPapel::Bibliotecario,
+        ]);
+    }
+
+    public function bloqueado(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'situacao' => UsuarioSituacao::Bloqueado,
+            'bloqueado_em' => now(),
         ]);
     }
 }

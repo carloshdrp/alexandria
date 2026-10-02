@@ -4,6 +4,7 @@ namespace Emprestimos\Domain\Models;
 
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Database\Factories\MultaFactory;
 use DomainException;
 use Emprestimos\Domain\Enums\MultaSituacao;
 use Emprestimos\Domain\Observers\MultaObserver;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,6 +21,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['emprestimo_id', 'user_id', 'valor', 'dias_atraso'])]
 class Multa extends Model
 {
+    /** @use HasFactory<MultaFactory> */
+    use HasFactory;
+
     protected $attributes = [
         'situacao' => MultaSituacao::Pendente->value,
     ];
