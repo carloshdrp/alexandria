@@ -1,6 +1,6 @@
 <?php
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioPapel;
 use Inventario\Domain\Enums\ExemplarEstadoConservacao;
 use Inventario\Domain\Enums\ExemplarSituacao;
 use Inventario\Domain\Models\Autor;

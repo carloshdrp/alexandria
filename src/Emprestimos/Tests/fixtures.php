@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use Acesso\Domain\Models\User;
 use Carbon\CarbonImmutable;
 use Emprestimos\Domain\Enums\EmprestimoSituacao;
 use Emprestimos\Domain\Enums\ReservaSituacao;

@@ -6,7 +6,6 @@
 }
 
 @source '../../storage/framework/views/*.php';
-@source '../../app/**/*.blade.php';
 @source '../../src/**/*.blade.php';
 
 @theme {

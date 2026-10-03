@@ -2,8 +2,8 @@
 
 namespace Inventario\Application\Livewire;
 
+use Acesso\Domain\Models\User;
 use App\Concerns\ExibeExcecaoDeDominio;
-use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\Rule;
 use Inventario\Domain\Enums\ExemplarEstadoConservacao;

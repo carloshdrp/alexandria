@@ -1,6 +1,6 @@
 <?php
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioPapel;
 use Carbon\CarbonImmutable;
 use Emprestimos\Application\Livewire\ReservasAtivas;
 use Emprestimos\Application\Livewire\SituacaoDoCliente;

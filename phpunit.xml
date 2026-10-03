@@ -9,7 +9,7 @@
             <directory>tests</directory>
         </testsuite>
         <testsuite name="Acesso">
-            <directory>app/Acesso/Tests</directory>
+            <directory>src/Acesso/Tests</directory>
         </testsuite>
         <testsuite name="Inventario">
             <directory>src/Inventario/Tests</directory>
@@ -24,7 +24,7 @@
             <directory>src</directory>
         </include>
         <exclude>
-            <directory>app/Acesso/Tests</directory>
+            <directory>src/Acesso/Tests</directory>
             <directory>src/Inventario/Tests</directory>
             <directory>src/Emprestimos/Tests</directory>
         </exclude>

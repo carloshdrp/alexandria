@@ -2,10 +2,10 @@
 
 namespace Emprestimos\Application\Livewire;
 
-use App\Acesso\Domain\Events\UsuarioFoiBloqueado;
-use App\Acesso\Domain\Events\UsuarioFoiDesbloqueado;
+use Acesso\Domain\Events\UsuarioFoiBloqueado;
+use Acesso\Domain\Events\UsuarioFoiDesbloqueado;
+use Acesso\Domain\Models\User;
 use App\Concerns\ExibeExcecaoDeDominio;
-use App\Models\User;
 use Emprestimos\Domain\Enums\EmprestimoSituacao;
 use Emprestimos\Domain\Enums\MultaSituacao;
 use Emprestimos\Domain\Enums\ReservaSituacao;

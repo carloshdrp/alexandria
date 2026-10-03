@@ -1,8 +1,8 @@
 <?php
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
-use App\Acesso\Domain\Enums\UsuarioSituacao;
-use App\Acesso\Domain\Events\UsuarioFoiDesbloqueado;
+use Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioSituacao;
+use Acesso\Domain\Events\UsuarioFoiDesbloqueado;
 use Carbon\CarbonImmutable;
 use Emprestimos\Application\Livewire\EmprestimosEmAberto;
 use Emprestimos\Application\Livewire\MeusEmprestimos;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Acesso\Application\Middleware\GarantirUsuarioAtivo;
+use Acesso\Application\Middleware\GarantirUsuarioAtivo;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;

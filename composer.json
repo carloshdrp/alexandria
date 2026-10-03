@@ -37,6 +37,7 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
+            "Acesso\\": "src/Acesso",
             "Emprestimos\\": "src/Emprestimos",
             "Inventario\\": "src/Inventario"
         }

@@ -11,12 +11,12 @@ arch('Inventário não conhece Empréstimos')
     ->expect('Inventario')
     ->not->toUse('Emprestimos');
 
-arch('o subdomínio genérico não conhece os Bounded Contexts')
-    ->expect('App')
+arch('o shared kernel não conhece os Bounded Contexts')
+    ->expect(['App', 'Acesso'])
     ->not->toUse(['Emprestimos', 'Inventario']);
 
 arch('os Bounded Contexts não usam o interior do Acesso, só o modelo que ele publica')
-    ->expect(['App\Acesso\Application', 'App\Acesso\Infrastructure', 'App\Acesso\Interface'])
+    ->expect(['Acesso\Application', 'Acesso\Infrastructure', 'Acesso\Interface'])
     ->not->toBeUsedIn(['Emprestimos', 'Inventario']);
 
 arch('todo evento de domínio dos Bounded Contexts implementa DomainEvent')
@@ -46,13 +46,13 @@ arch('Empréstimos só enxerga os eventos de integração do Inventário, nunca 
     ->ignoring('Inventario\Domain\Events\Integracao');
 
 arch('os eventos do Acesso implementam DomainEvent')
-    ->expect('App\Acesso\Domain\Events')
+    ->expect('Acesso\Domain\Events')
     ->toImplement(DomainEvent::class);
 
 arch('os eventos do Acesso são final')
-    ->expect('App\Acesso\Domain\Events')
+    ->expect('Acesso\Domain\Events')
     ->toBeFinal();
 
 arch('os eventos do Acesso são readonly')
-    ->expect('App\Acesso\Domain\Events')
+    ->expect('Acesso\Domain\Events')
     ->toBeReadonly();

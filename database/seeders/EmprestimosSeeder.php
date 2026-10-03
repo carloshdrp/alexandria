@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
-use App\Acesso\Domain\Enums\UsuarioSituacao;
-use App\Models\User;
+use Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioSituacao;
+use Acesso\Domain\Models\User;
 use Carbon\CarbonImmutable;
 use Database\Factories\EmprestimoFactory;
 use Database\Factories\MultaFactory;

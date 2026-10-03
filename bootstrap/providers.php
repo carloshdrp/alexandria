@@ -1,6 +1,6 @@
 <?php
 
-use App\Acesso\Application\Providers\AcessoServiceProvider;
+use Acesso\Application\Providers\AcessoServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\TelescopeServiceProvider;
 use Emprestimos\Application\Providers\EmprestimosServiceProvider;

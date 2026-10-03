@@ -1,6 +1,6 @@
 <?php
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioPapel;
 use Carbon\CarbonImmutable;
 use Emprestimos\Application\Livewire\EmprestimosEmAberto;
 use Emprestimos\Application\Livewire\MinhasMultas;

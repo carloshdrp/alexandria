@@ -2,7 +2,7 @@
 
 namespace Inventario\Domain\Models;
 
-use App\Models\User;
+use Acesso\Domain\Models\User;
 use Database\Factories\CategoriaFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;

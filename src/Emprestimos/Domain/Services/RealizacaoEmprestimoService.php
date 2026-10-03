@@ -2,7 +2,7 @@
 
 namespace Emprestimos\Domain\Services;
 
-use App\Models\User;
+use Acesso\Domain\Models\User;
 use Carbon\CarbonImmutable;
 use DomainException;
 use Emprestimos\Domain\Events\EmprestimoFoiRealizado;

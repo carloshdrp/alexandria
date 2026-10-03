@@ -1,6 +1,6 @@
 <?php
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioPapel;
 use Emprestimos\Application\Livewire\FichaDaObra;
 use Emprestimos\Domain\Enums\ReservaSituacao;
 use Emprestimos\Domain\Models\Reserva;

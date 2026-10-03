@@ -2,7 +2,7 @@
 
 namespace Inventario\Domain\Services;
 
-use App\Models\User;
+use Acesso\Domain\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Inventario\Domain\Events\ObraFoiCadastrada;

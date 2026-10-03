@@ -2,7 +2,7 @@
 
 namespace Emprestimos\Domain\Models;
 
-use App\Models\User;
+use Acesso\Domain\Models\User;
 use Database\Factories\EmprestimoRenovacaoFactory;
 use Emprestimos\Domain\Observers\EmprestimoRenovacaoObserver;
 use Illuminate\Database\Eloquent\Attributes\Fillable;

@@ -2,9 +2,9 @@
 
 namespace Emprestimos\Application\Livewire;
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Models\User;
 use App\Concerns\ExibeExcecaoDeDominio;
-use App\Models\User;
 use Emprestimos\Domain\Models\Reserva;
 use Emprestimos\Domain\Services\RealizacaoEmprestimoService;
 use Emprestimos\Domain\Services\ReservaObraService;

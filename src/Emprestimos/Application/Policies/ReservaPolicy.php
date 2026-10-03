@@ -2,7 +2,7 @@
 
 namespace Emprestimos\Application\Policies;
 
-use App\Models\User;
+use Acesso\Domain\Models\User;
 use Emprestimos\Domain\Models\Reserva;
 
 class ReservaPolicy

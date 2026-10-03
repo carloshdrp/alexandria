@@ -2,7 +2,7 @@
 
 namespace Inventario\Domain\Models;
 
-use App\Models\User;
+use Acesso\Domain\Models\User;
 use Carbon\CarbonImmutable;
 use Database\Factories\ExemplarFactory;
 use DomainException;

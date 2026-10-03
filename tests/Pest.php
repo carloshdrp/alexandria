@@ -1,9 +1,9 @@
 <?php
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
-use App\Acesso\Domain\Enums\UsuarioSituacao;
-use App\Acesso\Domain\ValueObjects\Documento;
-use App\Models\User;
+use Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioSituacao;
+use Acesso\Domain\Models\User;
+use Acesso\Domain\ValueObjects\Documento;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -21,7 +21,7 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
-    ->in('Feature', '../app/Acesso/Tests/Feature', '../src/Inventario/Tests/Feature', '../src/Emprestimos/Tests/Feature');
+    ->in('Feature', '../src/Acesso/Tests/Feature', '../src/Inventario/Tests/Feature', '../src/Emprestimos/Tests/Feature');
 
 /*
 |--------------------------------------------------------------------------

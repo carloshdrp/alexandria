@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Acesso\Domain\Enums\UsuarioPapel;
-use App\Acesso\Domain\Enums\UsuarioSituacao;
-use App\Models\User;
-use App\Acesso\Domain\ValueObjects\Documento;
-use App\Acesso\Domain\ValueObjects\Telefone;
+use Acesso\Domain\Enums\UsuarioPapel;
+use Acesso\Domain\Enums\UsuarioSituacao;
+use Acesso\Domain\Models\User;
+use Acesso\Domain\ValueObjects\Documento;
+use Acesso\Domain\ValueObjects\Telefone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -16,6 +16,8 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    protected $model = User::class;
+
     protected static ?string $password;
 
     /**
