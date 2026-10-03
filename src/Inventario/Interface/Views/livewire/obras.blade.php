@@ -3,7 +3,6 @@
 
     <x-ui.abas :itens="[
         'Obras' => 'inventario.obras',
-        'Exemplares' => 'inventario.exemplares',
         'Autores' => 'inventario.autores',
         'Editoras' => 'inventario.editoras',
         'Categorias' => 'inventario.categorias',
